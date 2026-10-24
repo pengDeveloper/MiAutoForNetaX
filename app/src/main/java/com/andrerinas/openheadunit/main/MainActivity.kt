@@ -151,6 +151,7 @@ class MainActivity : BaseActivity() {
         // 盖住它。这里让 decor 按系统默认布局，内容自然落在右侧。
         WindowCompat.setDecorFitsSystemWindows(window, true)
         setContentView(R.layout.activity_main)
+        applyXbInsets(findViewById(R.id.root))
 
         val appSettings = Settings(this)
         requestedOrientation = appSettings.screenOrientation.androidOrientation
@@ -1076,5 +1077,21 @@ class MainActivity : BaseActivity() {
          */
         @Volatile
         var icocaProjectionOpened: Boolean = false
+    }
+
+    /**
+     * X管家 适配：把系统 insets 作为 padding 应用到根布局。
+     * 车机左侧 588px 是系统气候栏（ITYPE_CLIMATE_BAR），窗口尺寸可能仍是整屏，
+     * 这里显式让内容避开这些 inset —— 保证任何情况下都只占右侧应用区域。
+     */
+    private fun applyXbInsets(rootView: View) {
+        androidx.core.view.ViewCompat.setOnApplyWindowInsetsListener(rootView) { v, insets ->
+            val bars = insets.getInsets(
+                androidx.core.view.WindowInsetsCompat.Type.systemBars()
+                    or androidx.core.view.WindowInsetsCompat.Type.displayCutout(),
+            )
+            v.setPadding(bars.left, bars.top, bars.right, bars.bottom)
+            insets
+        }
     }
 }

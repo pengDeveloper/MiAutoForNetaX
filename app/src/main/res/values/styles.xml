@@ -22,10 +22,13 @@
         <item name="android:windowFullscreen">true</item>
     </style>
 
+    <!-- X管家 适配：启动页不再用"整屏 logo 图"，改成和主界面一致的浅色渐变底，
+         这样冷启动时看到的是一块纯背景，不会显得"全屏" -->
     <style name="SplashTheme" parent="AppTheme">
-        <item name="android:windowBackground">@drawable/splash_background</item>
-        <item name="android:statusBarColor">@color/color_projection_blue</item>
-        <item name="android:navigationBarColor">@color/color_projection_blue</item>
+        <item name="android:windowBackground">@drawable/bg_xb</item>
+        <item name="android:statusBarColor">@color/xb_bg_top</item>
+        <item name="android:navigationBarColor">@color/xb_bg_bottom</item>
+        <item name="android:windowLightStatusBar">true</item>
     </style>
 
     <style name="SplashTheme.Fullscreen" parent="SplashTheme">
