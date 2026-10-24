@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * MiAuto 车机端 ICCOA CarLink（小米 CarWith）SDK 生命周期管理器。
+ * xAuto 车机端 ICCOA CarLink（小米 CarWith）SDK 生命周期管理器。
  *
  * <p>本类只管 SDK：初始化 / 广播 / 投屏 Surface / 回调转发。UI 与 BYD 输出通过
  * {@link Listener} 解耦（由 Activity 或 {@code IccoaNavigationBridge} 实现）。
@@ -32,7 +32,7 @@ import java.util.Random;
  */
 public class IccoaManager {
 
-    private static final String TAG = "MiAuto/ICCOA";
+    private static final String TAG = "xAuto/ICCOA";
 
     /** 事件回调。由 UI / 导航桥接实现。 */
     public interface Listener {

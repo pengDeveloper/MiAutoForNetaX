@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  MiAuto standby screen.
+  xAuto standby screen.
 
   Deliberately buttonless, like HiCar / Honor CarLink: the car advertises itself continuously, so
   there is nothing for the user to start. The pairing code appears on its own the instant the phone
@@ -239,7 +239,7 @@
             </LinearLayout>
         </LinearLayout>
 
-        <!-- Legal footer: MiAuto is an independent project, not a BYD / ICCOA / Xiaomi product. -->
+        <!-- Legal footer: xAuto is an independent project, not a BYD / ICCOA / Xiaomi product. -->
         <TextView
             android:id="@+id/legal_footer"
             android:layout_width="match_parent"

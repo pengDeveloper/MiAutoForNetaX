@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MiAuto</string>
+    <string name="app_name">xAuto</string>
     <string name="menu">메뉴</string>
     <string name="settings">설정</string>
 
@@ -12,7 +12,7 @@
     <string name="video">Android Auto</string>
     <string name="self_mode">단독 모드</string>
     <string name="to_android_auto">Android Auto로 전환</string>
-    <string name="title">MiAuto</string>
+    <string name="title">xAuto</string>
     <string name="remove">제거</string>
     <string name="usb">USB</string>
     <string name="wifi">Wi-Fi</string>
@@ -302,9 +302,9 @@
     <!-- Info Settings -->
     <string name="category_info">정보</string>
     <string name="about">정보 및 지원</string>
-    <string name="about_description">MiAuto에 대한 자세한 정보를 확인하세요</string>
+    <string name="about_description">xAuto에 대한 자세한 정보를 확인하세요</string>
     <string name="version">버전</string>
-    <string name="about_title">MiAuto 정보</string>
+    <string name="about_title">xAuto 정보</string>
     <string name="copyright">© 2025-%d André Rinas</string>
 
     <!-- Safety Disclaimer -->
@@ -763,7 +763,7 @@
     <string name="support_rules_connection_title">연결 방식을 알려주세요</string>
     <string name="support_rules_connection_desc">USB 케이블, USB 무선 어댑터, WiFi Direct, WiFi(헤드유닛 서버) 또는 Self Mode 중 하나를 알려주세요. 무선 연결이라면 어댑터나 동글 모델도 함께 기재해 주세요.</string>
     <string name="support_rules_appversion_title">앱 버전을 포함해 주세요</string>
-    <string name="support_rules_appversion_desc">정보 및 지원 화면에 표시된 MiAuto 버전을 알려주세요.</string>
+    <string name="support_rules_appversion_desc">정보 및 지원 화면에 표시된 xAuto 버전을 알려주세요.</string>
     <string name="support_rules_logs_title">문제 발생 직후에 로그를 첨부해 주세요</string>
     <string name="support_rules_logs_desc">설정의 고급 탭으로 이동해 디버그 섹션에서 디버그 모드를 켠 다음, 문제를 재현하고 바로 로그 내보내기를 탭하세요. 이렇게 해야 앱 시작 시점이 아닌 문제가 발생한 순간이 로그에 포함됩니다. 해당 파일을 이슈에 첨부해 주세요.</string>
     <string name="support_rules_search_title">중복 금지</string>
@@ -859,7 +859,7 @@
     <string name="playback_focus_mode_always_hint">Always pauses other audio while Android Auto plays. If your music stops after a second or two whenever Bluetooth is on, switch back to Automatic.</string>
     <string name="playback_focus_mode_never_hint">Never touches system audio focus. Other audio on the headunit may keep playing over Android Auto.</string>
     <string name="playback_focus_mode_static_hint">With Static Audio Focus on, this applies from the moment the phone connects and lasts the whole session, rather than only while audio is playing.</string>
-    <string name="github_issues_url">https://github.com/PiggyBackBayonet/MiAuto/issues</string>
+    <string name="github_issues_url">https://github.com/PiggyBackBayonet/xAuto/issues</string>
     <string name="support_rules_english_title">All posts in English</string>
     <string name="boot_loop_paused_title">Wireless start-up paused</string>
     <string name="boot_loop_paused_generic">This device restarted three times in a row shortly after Open Headunit started wireless, so wireless was left off this time. USB still works. Open the app to turn it back on.</string>

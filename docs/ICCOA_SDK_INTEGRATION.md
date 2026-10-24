@@ -1,6 +1,6 @@
 # ICCOA CarLink 集成说明
 
-MiAuto 以 [DiAuto Pro](https://github.com/zutaozhong-hash/DiAuto-Pro) 为基座重建，把手机侧协议
+xAuto 以 [DiAuto Pro](https://github.com/zutaozhong-hash/DiAuto-Pro) 为基座重建，把手机侧协议
 从 **Android Auto** 换成 **ICCOA CarLink**（接住小米 CarWith、OPPO Car+ 车联、vivo Jovi InCar
 等走同一套协议的手机端）。本文记录这次替换中真正踩过的坑，
 供后续维护者参考。
@@ -9,13 +9,13 @@ MiAuto 以 [DiAuto Pro](https://github.com/zutaozhong-hash/DiAuto-Pro) 为基座
 
 ## 1. 为什么以 DiAuto 为基座，而不是从极简工程派生
 
-上一版 MiAuto 派生自最小验证工程 —— 只有 4 个类、1 个布局，**根本没有设置页**。
+上一版 xAuto 派生自最小验证工程 —— 只有 4 个类、1 个布局，**根本没有设置页**。
 于是 DiAuto 里那套「常规 + 高级」设置（含 `仪表投屏` / `投屏时机` / `HUD 未识别不显示`）
-在 MiAuto 里全都对不上。
+在 xAuto 里全都对不上。
 
 改为以 DiAuto 为基座后，这些设置**原样回归**。
 
-## 2. 现在的 MiAuto 由哪些层组成
+## 2. 现在的 xAuto 由哪些层组成
 
 | 层 | 来源 | 说明 |
 |---|---|---|
@@ -23,10 +23,10 @@ MiAuto 以 [DiAuto Pro](https://github.com/zutaozhong-hash/DiAuto-Pro) 为基座
 | 设置体系 | DiAuto | `main/SettingsActivity.kt` / `SettingsFragment.kt`：常规 · 无线连接 · 深色模式 · 自动化 · 导航 · 图形 · 视频 · 输入 · 音频 · 备份 · 重置 · 调试 · 信息 |
 | BYD 仪表 + HUD 输出 | DiAuto | `hud/` + `cluster/`；`BydNavigationOutputs.available()` 就是「HUD 未识别则不显示开关」的门控 |
 | 投影渲染 | DiAuto | `view/`（SurfaceView / TextureView / GLES）+ `aap/AapProjectionActivity` |
-| 手机协议 | **ICCOA（新）** | `connection/IcocaBridge.kt` + `com.miauto.app.IccoaManager` + `app/libs/icar-sdk.dex` |
+| 手机协议 | **ICCOA（新）** | `connection/IcocaBridge.kt` + `com.xbutler.xauto.IccoaManager` + `app/libs/icar-sdk.dex` |
 
 > 内部 Java 包名仍为 `com.andrerinas.openheadunit`（沿用基座，避免 275 个源文件 + JNI/proto/AIDL
-> 的批量改名风险）；**对外的 `applicationId` 是 `com.miauto.app`**，与 DiAuto
+> 的批量改名风险）；**对外的 `applicationId` 是 `com.xbutler.xauto`**，与 DiAuto
 > （`com.andrerinas.headunitrevived`）独立共存。
 
 ## 3. 移植 SDK 时必须一起搬的三样东西
@@ -34,7 +34,7 @@ MiAuto 以 [DiAuto Pro](https://github.com/zutaozhong-hash/DiAuto-Pro) 为基座
 只把 SDK 的 dex 放进工程**不等于** SDK 可用。真机上「手机完全扫不到车机、界面无配对码、
 点任何按钮都无反应」的根因，就是**只搬了 dex**。dex 只等于 SDK 的**类**，另外三份必须一起搬：
 
-| 组成 | 漏掉时的症状 | MiAuto 的做法 |
+| 组成 | 漏掉时的症状 | xAuto 的做法 |
 |---|---|---|
 | **`<service>` 组件** | 系统起不了 SDK 的 Service → **静默失效，零报错** | `AndroidManifest.xml` 显式注册 `com.share.connect.ShareLinkService` / `.ble.BluetoothLeService` / `.wifiap.WifiApService` / `.wifip2p.WifiP2pService` + `androidx.room.MultiInstanceInvalidationService` |
 | **`<uses-permission>`** | 权限不足 → API 静默失败 | 逐条对齐样本：`TETHER_PRIVILEGED` / `OVERRIDE_WIFI_CONFIG` / `NETWORK_SETTINGS` / `NETWORK_STACK` / `LOCAL_MAC_ADDRESS` / `QUERY_ALL_PACKAGES` / `MANAGE_USB` 等 |
@@ -44,12 +44,12 @@ MiAuto 以 [DiAuto Pro](https://github.com/zutaozhong-hash/DiAuto-Pro) 为基座
 > 字符串池里出现 `Landroidx/room/RoomDatabase;` 既可能是**定义**、也可能只是**引用**。
 
 还有一条：**启动 SDK 必须等运行时权限**。`BLUETOOTH_ADVERTISE` / `BLUETOOTH_CONNECT`（API 31+）
-未授予时 `startAdvertise()` 会**静默失败**。MiAuto 用幂等的 `ensureIcocaStarted()`
+未授予时 `startAdvertise()` 会**静默失败**。xAuto 用幂等的 `ensureIcocaStarted()`
 （`onCreate` + `onResume` 各调一次）兜住。
 
 ## 4. 与 Android Auto 的资源隔离
 
-MiAuto 只把 `AapService` 当前台保活，并用 `BuildConfig.ICCOA_ONLY = true` 关掉它的 AA 专属副作用：
+xAuto 只把 `AapService` 当前台保活，并用 `BuildConfig.ICCOA_ONLY = true` 关掉它的 AA 专属副作用：
 
 - `enableCarMode()` —— 会与车机自己的 UI 抢前台
 - `MediaSession.isActive` —— 会抢车机媒体键
@@ -68,7 +68,7 @@ MiAuto 只把 `AapService` 当前台保活，并用 `BuildConfig.ICCOA_ONLY = tr
 **根因**：车机「一直在广播」不等于「手机能重新发现」。BLE 广播帧内容不变时，手机端 CarWith
 **不会重新弹出**配对界面。
 
-**解法**（`com.miauto.app.IccoaManager`）：
+**解法**（`com.xbutler.xauto.IccoaManager`）：
 
 | 机制 | 说明 |
 |---|---|

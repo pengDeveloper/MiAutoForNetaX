@@ -17,8 +17,8 @@ import java.util.Calendar
 class AboutFragment : Fragment() {
 
     companion object {
-        /** MiAuto's public repository; the source link on this screen points here. */
-        private const val REPO_URL = "https://github.com/PiggyBackBayonet/MiAuto"
+        /** xAuto's public repository; the source link on this screen points here. */
+        private const val REPO_URL = "https://github.com/PiggyBackBayonet/xAuto"
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -42,9 +42,9 @@ class AboutFragment : Fragment() {
         val sb = StringBuilder()
         sb.append("<b>Special thanks to Mike Reidis for the original headunit protocol and code.</b><br/>")
         sb.append("<a href=\"https://github.com/mikereidis/headunit\">https://github.com/mikereidis/headunit</a><br/><br/>")
-        sb.append("<h3>MiAuto ${com.andrerinas.openheadunit.BuildConfig.VERSION_NAME}</h3>")
-        sb.append("<a href=\"").append(REPO_URL).append("\">MiAuto source and releases</a><br/>")
-        sb.append("MiAuto brings Xiaomi CarWith, OPPO Car+ and vivo Jovi InCar to the car over ICCOA CarLink. It is built on ")
+        sb.append("<h3>xAuto ${com.andrerinas.openheadunit.BuildConfig.VERSION_NAME}</h3>")
+        sb.append("<a href=\"").append(REPO_URL).append("\">xAuto source and releases</a><br/>")
+        sb.append("xAuto brings Xiaomi CarWith, OPPO Car+ and vivo Jovi InCar to the car over ICCOA CarLink. It is built on ")
         sb.append("<a href=\"https://github.com/zutaozhong-hash/DiAuto-Pro\">DiAuto</a> and ")
         sb.append("<a href=\"https://github.com/andreknieriem/open-headunit\">Open Headunit</a>; ")
         sb.append("thanks to their authors and contributors. Not affiliated with Google, Xiaomi, OPPO, vivo or BYD.<br/><br/>")

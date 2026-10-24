@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MiAuto</string>
+    <string name="app_name">xAuto</string>
     <string name="menu">Menu</string>
     <string name="settings">Instellingen</string>
     <string name="title_activity_settings">Instellingen</string>
@@ -11,7 +11,7 @@
     <string name="video">Android Auto</string>
     <string name="self_mode">Self Mode</string>
     <string name="to_android_auto">Naar Android Auto</string>
-    <string name="title">MiAuto</string>
+    <string name="title">xAuto</string>
     <string name="remove">Verwijder</string>
     <string name="usb">USB</string>
     <string name="wifi">WiFi</string>
@@ -257,9 +257,9 @@
     <!-- Info Settings -->
     <string name="category_info">Info</string>
     <string name="about">Over &amp; Support</string>
-    <string name="about_description">Meer informatie over MiAuto</string>
+    <string name="about_description">Meer informatie over xAuto</string>
     <string name="version">Versie</string>
-    <string name="about_title">Over MiAuto</string>
+    <string name="about_title">Over xAuto</string>
     <string name="copyright">© 2025-%d André Rinas</string>
 
     <!-- Safety Disclaimer -->
@@ -789,7 +789,7 @@
     <string name="support_rules_connection_title">Zeg hoe je verbindt</string>
     <string name="support_rules_connection_desc">USB-kabel, draadloze USB-adapter, WiFi Direct, WiFi (headunit server) of Self Mode. Als het draadloos is, voeg dan het model van de adapter of dongle toe.</string>
     <string name="support_rules_appversion_title">Vermeld de app-versie</string>
-    <string name="support_rules_appversion_desc">De versie van MiAuto, te zien op het scherm Over &amp; Support.</string>
+    <string name="support_rules_appversion_desc">De versie van xAuto, te zien op het scherm Over &amp; Support.</string>
     <string name="support_rules_logs_title">Voeg logs toe, direct nadat het gebeurt</string>
     <string name="support_rules_logs_desc">Ga naar het tabblad Geavanceerd in Instellingen, zet Debug Modus aan in het gedeelte Debug, reproduceer het probleem en tik daarna meteen op Logs exporteren zodat het logbestand het moment van de fout bevat en niet alleen de start. Voeg dat bestand toe aan je issue.</string>
     <string name="support_rules_search_title">Geen duplicaten</string>
@@ -862,7 +862,7 @@
     <string name="playback_focus_mode_always_hint">Always pauses other audio while Android Auto plays. If your music stops after a second or two whenever Bluetooth is on, switch back to Automatic.</string>
     <string name="playback_focus_mode_never_hint">Never touches system audio focus. Other audio on the headunit may keep playing over Android Auto.</string>
     <string name="playback_focus_mode_static_hint">With Static Audio Focus on, this applies from the moment the phone connects and lasts the whole session, rather than only while audio is playing.</string>
-    <string name="github_issues_url">https://github.com/PiggyBackBayonet/MiAuto/issues</string>
+    <string name="github_issues_url">https://github.com/PiggyBackBayonet/xAuto/issues</string>
     <string name="support_rules_english_title">All posts in English</string>
     <string name="boot_loop_paused_title">Wireless start-up paused</string>
     <string name="boot_loop_paused_generic">This device restarted three times in a row shortly after Open Headunit started wireless, so wireless was left off this time. USB still works. Open the app to turn it back on.</string>

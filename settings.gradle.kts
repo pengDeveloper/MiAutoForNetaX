@@ -4,7 +4,7 @@ import org.gradle.kotlin.dsl.repositories
 include(":app", ":contract")
 
 
-rootProject.name = "MiAuto"
+rootProject.name = "xAuto"
 
 pluginManagement {
     repositories {

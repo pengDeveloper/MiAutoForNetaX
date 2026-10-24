@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MiAuto</string>
+    <string name="app_name">xAuto</string>
     <string name="menu">Menü</string>
     <string name="settings">Einstellungen</string>
 
@@ -12,7 +12,7 @@
     <string name="video">Android Auto</string>
     <string name="self_mode">Self Mode</string>
     <string name="to_android_auto">Zu Android Auto</string>
-    <string name="title">MiAuto</string>
+    <string name="title">xAuto</string>
     <string name="remove">Entfernen</string>
     <string name="usb">USB</string>
     <string name="wifi">WLAN</string>
@@ -296,9 +296,9 @@
     <!-- Info Settings -->
     <string name="category_info">Info</string>
     <string name="about">Über &amp; Support</string>
-    <string name="about_description">Mehr Informationen über MiAuto</string>
+    <string name="about_description">Mehr Informationen über xAuto</string>
     <string name="version">Version</string>
-    <string name="about_title">Über MiAuto</string>
+    <string name="about_title">Über xAuto</string>
     <string name="copyright">© 2025-%d André Rinas</string>
 
     <!-- Safety Disclaimer -->
@@ -807,7 +807,7 @@
     <string name="support_open_issues">GitHub Issues-Seite öffnen</string>
     <string name="support_scan_qr">Oder scanne diesen QR-Code, um die Issues-Liste auf einem anderen Gerät zu öffnen.</string>
     <string name="support_github_account_warning">Hinweis: Für das Erstellen eines Issues wird ein kostenloser GitHub-Account benötigt.</string>
-    <string name="github_issues_url">https://github.com/PiggyBackBayonet/MiAuto/issues</string>
+    <string name="github_issues_url">https://github.com/PiggyBackBayonet/xAuto/issues</string>
     <string name="support_rules_button">Regeln für Meldungen</string>
     <string name="support_rules_intro">Nur zwei Dinge sind erforderlich. Alles andere ist optional, hilft aber bei einer schnelleren Lösung.</string>
     <string name="support_rules_section_required">Erforderlich</string>
@@ -819,7 +819,7 @@
     <string name="support_rules_connection_title">Verbindungsart</string>
     <string name="support_rules_connection_desc">USB-Kabel, USB-Wireless-Adapter, WiFi Direct, WiFi Hotspot oder Self Mode. Bei Wireless bitte Adaptermodell angeben.</string>
     <string name="support_rules_appversion_title">App-Version angeben</string>
-    <string name="support_rules_appversion_desc">Die MiAuto Version (siehe Über-Bildschirm).</string>
+    <string name="support_rules_appversion_desc">Die xAuto Version (siehe Über-Bildschirm).</string>
     <string name="support_rules_logs_title">Logs direkt nach dem Fehler anhängen</string>
     <string name="support_rules_logs_desc">Aktiviere den Debug-Modus in den erweiterten Einstellungen, reproduziere den Fehler und klicke direkt danach auf Logs exportieren.</string>
     <string name="support_rules_search_title">Keine Duplikate</string>

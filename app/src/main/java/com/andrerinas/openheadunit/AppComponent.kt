@@ -26,7 +26,7 @@ class AppComponent(private val app: App) {
     val commManager = CommManager(app, settings, audioDecoder, videoDecoder)
 
     /**
-     * MiAuto's ICCOA CarLink (Xiaomi CarWith) link. Process-scoped: the SDK must be initialised
+     * xAuto's ICCOA CarLink (Xiaomi CarWith) link. Process-scoped: the SDK must be initialised
      * once per process, so this bridge outlives any single activity and is the single owner of
      * the [com.miauto.app.IccoaManager] instance.
      */

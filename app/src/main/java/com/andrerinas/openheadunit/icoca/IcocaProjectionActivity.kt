@@ -27,7 +27,7 @@ import kotlinx.coroutines.launch
  *
  * It deliberately does *not* reuse `AapProjectionActivity`. That activity is wired end-to-end into
  * the Android Auto session (video-focus negotiation, `CommManager` transport state, AAP keyframes)
- * and MiAuto never opens an AA session, so every one of its branches would be dead code guarded by
+ * and xAuto never opens an AA session, so every one of its branches would be dead code guarded by
  * a status that can never occur.
  */
 class IcocaProjectionActivity : AppCompatActivity() {

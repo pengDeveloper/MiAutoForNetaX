@@ -11,7 +11,7 @@
     <string name="video">Android Auto</string>
     <string name="self_mode">自我模式</string>
     <string name="to_android_auto">到 Android Auto</string>
-    <string name="title">MiAuto</string>
+    <string name="title">xAuto</string>
     <string name="remove">移除</string>
     <string name="usb">USB</string>
     <string name="wifi">WiFi</string>
@@ -257,9 +257,9 @@
     <!-- Info Settings -->
     <string name="category_info">信息</string>
     <string name="about">关于 &amp; 支持</string>
-    <string name="about_description">取得更多信息关于 MiAuto</string>
+    <string name="about_description">取得更多信息关于 xAuto</string>
     <string name="version">版本</string>
-    <string name="about_title">关于 MiAuto</string>
+    <string name="about_title">关于 xAuto</string>
     <string name="copyright">© 2025-%d André Rinas</string>
 
     <!-- Safety Disclaimer -->
@@ -787,11 +787,11 @@
     <string name="support_rules_button">回报须知</string>
     <string name="support_rules_english_desc">请务必以英文描述您的问题。英文是维护者与大多数协助者共同使用的语言，若讨论串混杂多种语言，很快就会变成一座巴别塔，让大家都无法互相帮忙。不必担心英文程度或拼字，没有人会在意。如果有需要，可以用 Google Translate 或 DeepL 这类翻译工具，或是 ChatGPT 或 Claude 这类 AI，帮您把问题写成英文或润饰一下。</string>
     <string name="support_rules_device_title">说明运行应用程序的设备</string>
-    <string name="support_rules_device_desc">运行 MiAuto 的设备（您的车机或屏幕）所使用的 Android 版本，以及品牌和型号（如果知道的话）。</string>
+    <string name="support_rules_device_desc">运行 xAuto 的设备（您的车机或屏幕）所使用的 Android 版本，以及品牌和型号（如果知道的话）。</string>
     <string name="support_rules_connection_title">说明连接方式</string>
     <string name="support_rules_connection_desc">蓝牙配对配合 Wi-Fi Direct 或本机热点，或 USB。若为无线连接，请附上您所连接手机的型号。</string>
     <string name="support_rules_appversion_title">附上应用程序版本</string>
-    <string name="support_rules_appversion_desc">MiAuto 的版本号，可在关于画面中查看。</string>
+    <string name="support_rules_appversion_desc">xAuto 的版本号，可在关于画面中查看。</string>
     <string name="support_rules_logs_title">在问题发生后立即附上日志</string>
     <string name="support_rules_logs_desc">请进入设置，切换到高端分页，在调试区段打开调试模式，重现问题，然后立即点击导出日志，确保日志涵盖问题发生的当下而非仅有启动时的纪录。请将该文件附至您的 Issue。</string>
     <string name="support_rules_search_title">不要重复回报</string>
@@ -861,7 +861,7 @@
     <string name="playback_focus_mode_always_hint">Android Auto 播放时始终暂停其他音频。如果开启蓝牙后音乐在一两秒内停止，请切回自动模式。</string>
     <string name="playback_focus_mode_never_hint">从不更改系统音频焦点。车机上的其他音频可能与 Android Auto 同时播放。</string>
     <string name="playback_focus_mode_static_hint">启用固定音频焦点后，此设置从手机连接起持续整个会话，而非仅在播放音频时生效。</string>
-    <string name="github_issues_url">https://github.com/PiggyBackBayonet/MiAuto/issues</string>
+    <string name="github_issues_url">https://github.com/PiggyBackBayonet/xAuto/issues</string>
     <string name="support_rules_english_title">All posts in English</string>
     <string name="boot_loop_paused_title">无线启动已暂停</string>
     <string name="boot_loop_paused_generic">设备连续三次在 Open Headunit 启动无线连接后不久重启，因此本次未启用无线连接。USB 仍可使用。打开应用可重新启用无线连接。</string>

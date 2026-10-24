@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="da_brand">MiAuto</string>
+    <string name="da_brand">xAuto</string>
     <string name="da_tagline">MIAUTOCAR · في سيارتك</string>
     <string name="da_headline">هاتفك على شاشة سيارتك.</string>
     <string name="da_description">اعرض شاشة هاتفك على هذه الشاشة أو على العدّاد / HUD.\nافتح Xiaomi CarWith أو OPPO Car+ أو vivo Jovi InCar على هاتفك واختر هذه السيارة للبدء.</string>
@@ -32,11 +32,11 @@
     <string name="da_display_hint">حجم الصورة ومعدل الإطارات وإعدادات الصوت.</string>
     <string name="da_permissions">الأذونات</string>
     <string name="da_permissions_hint">تحقق من أذونات Bluetooth والميكروفون والموقع.</string>
-    <string name="da_about">حول MiAuto</string>
+    <string name="da_about">حول xAuto</string>
     <string name="da_about_hint">الإصدار والتراخيص ومساهمو المصادر المفتوحة.</string>
     <string name="da_saved_hint">تُطبق تغييرات إعدادات الفيديو عند الاتصال التالي.</string>
     <string name="da_settings_subtitle">اضبط الشاشة والصوت والاتصال.</string>
     <string name="da_bluetooth_music">الموسيقى عبر Bluetooth السيارة</string>
-    <string name="da_bluetooth_music_hint">أبقِ الموسيقى في مشغّل Bluetooth السيارة. لا يغيّر MiAuto تركيزه الصوتي؛ ويظل صوت الملاحة والمساعد متاحاً. أعد التوصيل بعد تغيير هذا الخيار.</string>
-    <string name="da_legal">MiAuto مشروع مفتوح المصدر مستقل من طرف ثالث، مبني على DiAuto Pro وOpen Headunit. لا تربطه أي علاقة بشركة BYD الرسمية، ولا بـ ICCOA أو Google أو Xiaomi أو OPPO أو vivo أو أصحاب علاماتها التجارية. ICCOA CarLink معيار اتصال داخل السيارة أطلقته Xiaomi وOPPO وvivo بشكل مشترك؛ ويُعدّ Xiaomi CarWith وOPPO Car+ وvivo Jovi InCar واجهاته الثلاث على الهاتف، بينما MiAuto مستقبل مستقل له على جانب السيارة. جميع الأسماء والعلامات التجارية مملوكة لأصحابها. هذا المشروع مخصص للتعلّم والتبادل التقني فقط، ويُمنع استخدامه تجارياً. وتقع مسؤولية أي نتائج مترتبة على الاستخدام على المستخدم.</string>
+    <string name="da_bluetooth_music_hint">أبقِ الموسيقى في مشغّل Bluetooth السيارة. لا يغيّر xAuto تركيزه الصوتي؛ ويظل صوت الملاحة والمساعد متاحاً. أعد التوصيل بعد تغيير هذا الخيار.</string>
+    <string name="da_legal">xAuto مشروع مفتوح المصدر مستقل من طرف ثالث، مبني على DiAuto Pro وOpen Headunit. لا تربطه أي علاقة بشركة BYD الرسمية، ولا بـ ICCOA أو Google أو Xiaomi أو OPPO أو vivo أو أصحاب علاماتها التجارية. ICCOA CarLink معيار اتصال داخل السيارة أطلقته Xiaomi وOPPO وvivo بشكل مشترك؛ ويُعدّ Xiaomi CarWith وOPPO Car+ وvivo Jovi InCar واجهاته الثلاث على الهاتف، بينما xAuto مستقبل مستقل له على جانب السيارة. جميع الأسماء والعلامات التجارية مملوكة لأصحابها. هذا المشروع مخصص للتعلّم والتبادل التقني فقط، ويُمنع استخدامه تجارياً. وتقع مسؤولية أي نتائج مترتبة على الاستخدام على المستخدم.</string>
 </resources>

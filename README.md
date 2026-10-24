@@ -1,9 +1,9 @@
-# MiAuto
+# xAuto
 
 **Xiaomi CarWith, OPPO Car+, vivo Jovi InCar and other ICCOA CarLink phones, on your car's head
 unit. Wireless.**
 
-**MiAuto runs on the car**, advertises itself as an ICCOA CarLink-capable head unit, and pairs
+**xAuto runs on the car**, advertises itself as an ICCOA CarLink-capable head unit, and pairs
 with a phone that already supports it — Xiaomi CarWith, OPPO Car+ 车联, vivo Jovi InCar and
 others. Your phone keeps its own maps, music and calling apps — nothing extra is installed on
 the phone, and the car needs no companion account, dongle, cable, root or firmware modification.
@@ -16,8 +16,8 @@ the phone, and the car needs no companion account, dongle, cable, root or firmwa
 > Xiaomi CarWith, OPPO Car+ and vivo Jovi InCar all speak.
 > See [Credits and license](#credits-and-license) below.
 
-[Download & installation](https://piggybackbayonet.github.io/MiAuto/) ·
-[Latest release](https://github.com/PiggyBackBayonet/MiAuto/releases/latest)
+[Download & installation](https://piggybackbayonet.github.io/xAuto/) ·
+[Latest release](https://github.com/PiggyBackBayonet/xAuto/releases/latest)
 
 [English](README.md) · [简体中文](README.zh-CN.md)
 
@@ -48,7 +48,7 @@ First public release.
   input, audio, backup, reset and diagnostics.
 - The inherited **instrument cluster and HUD projection paths**, kept for cars that expose
   those areas and off by default.
-- Its own package name (`com.miauto.app`) and its own release signing key, so MiAuto installs
+- Its own package name (`com.xbutler.xauto`) and its own release signing key, so xAuto installs
   next to other receiver apps on the same head unit.
 
 ## Headline features
@@ -73,7 +73,7 @@ The failure mode worth engineering against is a pairing prompt the user dismisse
 phone. The car is still advertising, but the phone will not show the dialog again by itself,
 and the previous behaviour was that the app had to be restarted.
 
-MiAuto re-advertises every 30 seconds while it is not connected:
+xAuto re-advertises every 30 seconds while it is not connected:
 
 | Mechanism | Behaviour |
 | --- | --- |
@@ -87,14 +87,14 @@ MiAuto re-advertises every 30 seconds while it is not connected:
 
 The base project targets the instrument cluster area that BYD already exposes to third-party
 apps, plus the windshield navigation outputs (arrows, distance, street names). Both paths are
-carried over into MiAuto for cars that expose them.
+carried over into xAuto for cars that expose them.
 
 The cluster mirror is **experimental and off by default**. Where the cluster area is not shared
 with apps, the setting reports the feature as unavailable rather than failing. Cluster
 projection is opt-in per car; the mirror timing control below it is intentionally always shown,
 because a control that hides itself is indistinguishable from a feature that was never built.
 
-**These two paths are carried over and are not yet verified with MiAuto's protocol stack.**
+**These two paths are carried over and are not yet verified with xAuto's protocol stack.**
 
 ## Features
 
@@ -169,8 +169,8 @@ public release unless it is signed with the same key.
 
 | Build | Application ID | Label |
 | --- | --- | --- |
-| Release | `com.miauto.app` | MiAuto |
-| Debug (coexist) | `com.miauto.app.debug` | MiAuto |
+| Release | `com.xbutler.xauto` | xAuto |
+| Debug (coexist) | `com.xbutler.xauto.debug` | xAuto |
 
 The debug ID lets a test build sit next to a stable install on the same head unit.
 Only the `github` flavor is covered by this repository's CI.
@@ -190,12 +190,12 @@ GitHub Actions deploys only `site/` to GitHub Pages.
 
 ## Credits and license
 
-MiAuto is built on [DiAuto Pro](https://github.com/zutaozhong-hash/DiAuto-Pro), an independent
+xAuto is built on [DiAuto Pro](https://github.com/zutaozhong-hash/DiAuto-Pro), an independent
 fork of [DiAuto](https://github.com/shihabal3amri/DiAuto), which is an independent fork of
 [Open Headunit](https://github.com/andreknieriem/open-headunit), based on work by its
 contributors and [Michael Reid](https://github.com/mikereidis/headunit).
 
-MiAuto is licensed **AGPL-3.0**. See [LICENSE](LICENSE) and the original copyright notices in
+xAuto is licensed **AGPL-3.0**. See [LICENSE](LICENSE) and the original copyright notices in
 `COPYRIGHT_MICHAEL_REID_GPLv3AFFERO.txt`. This repository contains the source for the
 published app.
 

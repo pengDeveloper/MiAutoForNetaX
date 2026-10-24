@@ -1,6 +1,6 @@
 # 第三方样本逆向分析：`智慧车联_v1.5.3-支持方控.apk`
 
-> 本文回答一个问题：**这个第三方 App 用的是什么协议？为什么装到车机后小米手机能直接识别？能不能照这个路子做 MiAuto？**
+> 本文回答一个问题：**这个第三方 App 用的是什么协议？为什么装到车机后小米手机能直接识别？能不能照这个路子做 xAuto？**
 >
 > 分析方法：静态逆向（解包 + DEX 字节码 + 原生库字符串 + 资源表），**未运行样本、未接入真实车辆**。所有结论都附文件/类/方法级证据。
 
@@ -351,27 +351,27 @@ Device d = new Device()
 装现成的 ICCOA CarLink 车机端 demo（公开分发的 `com.ucarhu.demo` v1.2.10 / v2.0.6 / v1.5.3），手机就能连。
 
 - ✅ 零开发
-- ❌ 不是 MiAuto，没有 BYD 仪表/HUD 集成，UI 是 demo UI
+- ❌ 不是 xAuto，没有 BYD 仪表/HUD 集成，UI 是 demo UI
 - ❌ R1/R2/R4 全部成立
 
 **适用**：只想验证"我的车机能不能连 CarWith"。
 
-### 路线 B：**提取 SDK 融入 MiAuto**（推荐）
+### 路线 B：**提取 SDK 融入 xAuto**（推荐）
 
-把 `com.ucar.*` + `com.share.connect.*` + `libovmsink.so` + `libusbio.so` + `assets/ccd.data` 从 APK 里取出，作为 MiAuto 的"协议前端"，替换 DiAuto Pro 的 `aap/*`：
+把 `com.ucar.*` + `com.share.connect.*` + `libovmsink.so` + `libusbio.so` + `assets/ccd.data` 从 APK 里取出，作为 xAuto 的"协议前端"，替换 DiAuto Pro 的 `aap/*`：
 
 ```
-MiAuto = DiAuto Pro 的"后半身"（解码/BYD 仪表/HUD/Settings/UI）
+xAuto = DiAuto Pro 的"后半身"（解码/BYD 仪表/HUD/Settings/UI）
        + ICCOA SDK 的"前半身"（发现/配对/鉴权/收流）
        + 自写的一层适配：SDK 回调 → DiAuto 数据模型
 ```
 
 适配层要写的就这么几个点：
 
-| SDK 侧 | 接到 MiAuto 的 | 工作量 |
+| SDK 侧 | 接到 xAuto 的 | 工作量 |
 |---|---|---|
 | `startCast(Surface, w, h)` | 现有 `VideoDecoder` 的 Surface（或直接用 SDK 自带收流，只借 DiAuto 的 Surface/View 层） | 小 |
-| `registerPhoneDataListener` → `NavigationInfo` | `AapNavigation` / `cluster/` 的 BYD 仪表与 HUD 承载 | 中（这是 MiAuto 的核心价值） |
+| `registerPhoneDataListener` → `NavigationInfo` | `AapNavigation` / `cluster/` 的 BYD 仪表与 HUD 承载 | 中（这是 xAuto 的核心价值） |
 | `registerCarConnectListener` | 现有连接状态 UI | 小 |
 | `sendGPSInfo/sendGearStateInfo/...` | 车机侧数据采集（BYD 有 CAN 数据源最好） | 中 |
 | `sendTouchEvent` / `sendKeyEvent` | 方向盘按键（复用 STC800 那套按键思路！） | 小 |
@@ -389,20 +389,20 @@ MiAuto = DiAuto Pro 的"后半身"（解码/BYD 仪表/HUD/Settings/UI）
 
 ---
 
-## 10. 修正后的 MiAuto 建议
+## 10. 修正后的 xAuto 建议
 
 | 阶段 | 内容 | 目的 |
 |---|---|---|
 | **POC-0** | 装官方 ICCOA demo 到车机 → 用你的小米手机连一次 | **先确认"这台车机 + 这台手机"能连**（成本 10 分钟） |
 | **POC-1** | 单独写一个最小 App：只调 `UCarAdapter.init()` + `startAdvertise()` + `startCast(一个纯色 Surface)` | 验证 SDK 能否脱离 demo UI 独立跑；这是路线 B 的可行性证明 |
-| **POC-2** | 在 POC-1 上接 `registerPhoneDataListener` → 把 `NavigationInfo` 送进 DiAuto 的 `AapNavigation`/`cluster/` | 验证 **BYD 仪表/HUD 复用**——这才是 MiAuto 的差异化价值 |
+| **POC-2** | 在 POC-1 上接 `registerPhoneDataListener` → 把 `NavigationInfo` 送进 DiAuto 的 `AapNavigation`/`cluster/` | 验证 **BYD 仪表/HUD 复用**——这才是 xAuto 的差异化价值 |
 | **P1** | 有线 USB（AOA）打通 | 最稳，先做 |
 | **P2** | 无线：车机热点 / WiFi Direct | |
 | **P3** | 融合桌面（`AppWindowCast` 小窗 + 多任务） | |
 | **P4** | 方向盘按键（`sendKeyEvent`）+ 语音（`sendVRCMD`） | 可复用 STC800 项目积累 |
 | **P5** | 自研证书 + 合规梳理 | 若要对外发布 |
 
-**优先级排序的理由**：POC-2 才是决定"MiAuto 值得不值得做"的那一步——如果 BYD 仪表/HUD 能复用，MiAuto 就比"装个 demo"强得多；如果不能，MiAuto 的意义会大幅缩水。
+**优先级排序的理由**：POC-2 才是决定"xAuto 值得不值得做"的那一步——如果 BYD 仪表/HUD 能复用，xAuto 就比"装个 demo"强得多；如果不能，xAuto 的意义会大幅缩水。
 
 ---
 
@@ -454,7 +454,7 @@ print(json.loads(bytes(x&0xFF for x in j['content']).decode()))
 
 ## 13. 本次逆向的产物已归档
 
-分析过程中提取的素材已存放在 `repos/MiAuto/reference/`（**只读参考，勿直接分发**）：
+分析过程中提取的素材已存放在 `repos/xAuto/reference/`（**只读参考，勿直接分发**）：
 
 | 路径 | 内容 |
 |---|---|

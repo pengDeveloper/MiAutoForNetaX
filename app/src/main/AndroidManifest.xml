@@ -406,7 +406,7 @@
              ICCOA CarLink SDK 必需组件 —— 「手机扫不到车机」的直接根因
              SDK 的整个传输栈都以独立 Service 形式运行，这些类定义在注入的 classes4.dex 里，
              但必须在此显式注册，否则系统无法启动它们：
-               · BluetoothLeService   BLE 广播/发现（手机能看到「MiAutoCar」就靠它）
+               · BluetoothLeService   BLE 广播/发现（手机能看到「xAutoCar」就靠它）
                · ShareLinkService     会话共享与链接协商
                · WifiApService        SoftAP 直连（投屏数据通道之一）
                · WifiP2pService       WiFi P2P 直连（投屏数据通道之二）

@@ -15,12 +15,12 @@ from html import escape as e
 ROOT = Path(__file__).resolve().parents[1]
 SITE = ROOT / 'site'
 data = json.loads((SITE / 'content.json').read_text(encoding='utf-8'))
-BASE = 'https://piggybackbayonet.github.io/MiAuto/'
-REPO = 'https://github.com/PiggyBackBayonet/MiAuto'
+BASE = 'https://piggybackbayonet.github.io/xAuto/'
+REPO = 'https://github.com/PiggyBackBayonet/xAuto'
 VERSION = '0.1.1'
 TAG = 'v' + VERSION
 RELEASE = REPO + '/releases/tag/' + TAG
-DOWNLOAD = REPO + '/releases/download/' + TAG + '/MiAuto-' + VERSION + '.apk'
+DOWNLOAD = REPO + '/releases/download/' + TAG + '/xAuto-' + VERSION + '.apk'
 # (file, width, height) — declared so the browser reserves the right box before load.
 SHOTS = [('connect', 1280, 720), ('settings', 1280, 720), ('about', 720, 1280)]
 BOLD = re.compile(r'\*\*(.+?)\*\*', re.S)
@@ -71,11 +71,11 @@ for lang, d in data.items():
         for (pic, w, h), cap in zip(SHOTS, d['captions']))
     (folder/'index.html').write_text(f'''<!doctype html>
 <html lang="{lang}" dir="{d['dir']}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>MiAuto · {e(d['download'])}</title><meta name="description" content="{e(d['intro'])}"><meta name="theme-color" content="#0c111b">
+<title>xAuto · {e(d['download'])}</title><meta name="description" content="{e(d['intro'])}"><meta name="theme-color" content="#0c111b">
 <link rel="icon" href="{prefix}assets/icon.png"><link rel="stylesheet" href="{prefix}assets/site.css"><link rel="canonical" href="{url}">{alternates}
-<meta property="og:title" content="MiAuto — {e(d['title']).replace(chr(10), ' ')}"><meta property="og:description" content="{e(d['promise'])}"><meta property="og:image" content="{BASE}assets/connect.png"><meta property="og:url" content="{url}"><meta property="og:type" content="website">
+<meta property="og:title" content="xAuto — {e(d['title']).replace(chr(10), ' ')}"><meta property="og:description" content="{e(d['promise'])}"><meta property="og:image" content="{BASE}assets/connect.png"><meta property="og:url" content="{url}"><meta property="og:type" content="website">
 </head><body><main>
-<header><a class="brand" href="{prefix}"><img src="{prefix}assets/icon.png" width="56" height="56" alt=""><span><strong>MiAuto</strong><small>{e(d['tag'])}</small></span></a><nav class="languages" aria-label="Language">{nav}</nav></header>
+<header><a class="brand" href="{prefix}"><img src="{prefix}assets/icon.png" width="56" height="56" alt=""><span><strong>xAuto</strong><small>{e(d['tag'])}</small></span></a><nav class="languages" aria-label="Language">{nav}</nav></header>
 <section class="hero"><span class="badge">{e(d['badge'])} · <bdi>{VERSION}</bdi></span><h1>{e(d['title']).replace(chr(10),'<br>')}</h1><p class="intro">{e(d['intro'])}</p><div class="actions"><a class="button" href="{DOWNLOAD}">{e(d['download'])} <span aria-hidden="true">↓</span></a><a class="button secondary" href="#install">{e(d['install'])}</a></div><p class="promise">{e(d['promise'])}</p><p class="note">{e(d['requires'])}</p><p class="note support-scope"><strong>{e(d['supportScope'])}</strong></p></section>
 {highlight_block(d)}
 <section class="gallery"><h2>{e(d['gallery'])}</h2><div class="screens">{pics}</div></section>

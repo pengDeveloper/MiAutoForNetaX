@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  Portrait variant of the MiAuto standby screen.
+  Portrait variant of the xAuto standby screen.
 
   Same buttonless, self-refreshing pairing-code design as the landscape layout in
   `layout/fragment_home.xml`, restacked into a single column. The view ids must stay in sync with
@@ -208,7 +208,7 @@
                 android:textSize="14sp" />
         </LinearLayout>
 
-        <!-- Legal footer: MiAuto is an independent project, not a BYD / ICCOA / Xiaomi product. -->
+        <!-- Legal footer: xAuto is an independent project, not a BYD / ICCOA / Xiaomi product. -->
         <TextView
             android:id="@+id/legal_footer"
             android:layout_width="match_parent"

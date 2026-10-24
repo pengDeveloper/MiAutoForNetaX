@@ -1,6 +1,6 @@
 
 <resources>
-    <string name="app_name">MiAuto</string>
+    <string name="app_name">xAuto</string>
     <string name="menu">Menü</string>
     <string name="settings">Ayarlar</string>
 
@@ -13,7 +13,7 @@
     <string name="video">Android Auto</string>
     <string name="self_mode">Dahili Mod</string>
     <string name="to_android_auto">Android Auto\'ya Geç</string>
-    <string name="title">MiAuto</string>
+    <string name="title">xAuto</string>
     <string name="remove">Kaldır</string>
     <string name="usb">USB</string>
     <string name="wifi">WiFi</string>
@@ -275,9 +275,9 @@
 
     <string name="category_info">Bilgi</string>
     <string name="about">Hakkında &amp; Destek</string>
-    <string name="about_description">MiAuto hakkında daha fazla bilgi alın</string>
+    <string name="about_description">xAuto hakkında daha fazla bilgi alın</string>
     <string name="version">Sürüm</string>
-    <string name="about_title">MiAuto Hakkında</string>
+    <string name="about_title">xAuto Hakkında</string>
     <string name="copyright">© 2025-%d André Rinas</string>
 
     <string name="disclaimer_title">Güvenlik &amp; Sorumluluk</string>
@@ -761,7 +761,7 @@
     <string name="support_rules_connection_title">Nasıl bağlandığınızı belirtin</string>
     <string name="support_rules_connection_desc">USB kablo, USB kablosuz adaptör, WiFi Direct, WiFi (headunit sunucusu) veya Self Mode. Kablosuz bağlantı kullanıyorsanız adaptör veya dongle modelini de ekleyin.</string>
     <string name="support_rules_appversion_title">Uygulama sürümünü ekleyin</string>
-    <string name="support_rules_appversion_desc">Hakkında ekranında gösterilen MiAuto sürümü.</string>
+    <string name="support_rules_appversion_desc">Hakkında ekranında gösterilen xAuto sürümü.</string>
     <string name="support_rules_logs_title">Olduğu anda günlükleri ekleyin</string>
     <string name="support_rules_logs_desc">Ayarlar\'da Gelişmiş sekmesini açın, Hata Ayıklama bölümünde Hata Ayıklama Modu\'nu etkinleştirin, sorunu yeniden oluşturun ve hemen ardından Günlükleri Dışa Aktar\'a dokunun; böylece günlük yalnızca başlangıcı değil sorunun yaşandığı anı da kapsar. Bu dosyayı konunuza ekleyin.</string>
     <string name="support_rules_search_title">Mükerrer konu açmayın</string>
@@ -857,7 +857,7 @@
     <string name="playback_focus_mode_always_hint">Always pauses other audio while Android Auto plays. If your music stops after a second or two whenever Bluetooth is on, switch back to Automatic.</string>
     <string name="playback_focus_mode_never_hint">Never touches system audio focus. Other audio on the headunit may keep playing over Android Auto.</string>
     <string name="playback_focus_mode_static_hint">With Static Audio Focus on, this applies from the moment the phone connects and lasts the whole session, rather than only while audio is playing.</string>
-    <string name="github_issues_url">https://github.com/PiggyBackBayonet/MiAuto/issues</string>
+    <string name="github_issues_url">https://github.com/PiggyBackBayonet/xAuto/issues</string>
     <string name="support_rules_english_title">All posts in English</string>
     <string name="boot_loop_paused_title">Wireless start-up paused</string>
     <string name="boot_loop_paused_generic">This device restarted three times in a row shortly after Open Headunit started wireless, so wireless was left off this time. USB still works. Open the app to turn it back on.</string>

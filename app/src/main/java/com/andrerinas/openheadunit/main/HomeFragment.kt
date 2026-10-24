@@ -19,7 +19,7 @@ import com.andrerinas.openheadunit.icoca.IcocaProjectionActivity
 import kotlinx.coroutines.launch
 
 /**
- * The car's standby screen for MiAuto.
+ * The car's standby screen for xAuto.
  *
  * Unlike DiAuto, whose standby screen drives an Android Auto connection, this screen is a status
  * board for the ICCOA CarLink (Xiaomi CarWith) link. The link advertises itself continuously, so

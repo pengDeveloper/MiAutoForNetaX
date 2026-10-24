@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
 /**
- * Bridges the MiAuto ICCOA CarLink SDK (a plain Java facade, [IccoaManager]) into DiAuto's
+ * Bridges the xAuto ICCOA CarLink SDK (a plain Java facade, [IccoaManager]) into DiAuto's
  * reactive architecture.
  *
  * DiAuto drives every consumer from a single `StateFlow` (see `CommManager.connectionState`);
@@ -19,7 +19,7 @@ import kotlinx.coroutines.flow.update
  * the two: it implements [IccoaManager.Listener], folds the raw callbacks into one observable
  * [state], and exposes the navigation stream the BYD cluster / HUD outputs consume.
  *
- * MiAuto is ICCOA-only — there is no Android Auto path at runtime — so this bridge (not
+ * xAuto is ICCOA-only — there is no Android Auto path at runtime — so this bridge (not
  * `CommManager`) is the source of truth for both the home screen and the projection activity.
  */
 class IcocaBridge(context: Context) : IccoaManager.Listener {

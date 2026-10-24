@@ -34,7 +34,7 @@
     launcher long-press shortcut a silent no-op (ActivityNotFoundException:
     "Shortcut could not be started").
 
-    Debug applicationId: com.miauto.app.debug
+    Debug applicationId: com.xbutler.xauto.debug
 -->
 <shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
     <shortcut
@@ -45,7 +45,7 @@
         android:shortcutLongLabel="@string/shortcut_connect_desc">
         <intent
             android:action="com.andrerinas.openheadunit.ACTION_CONNECT"
-            android:targetPackage="com.miauto.app.debug"
+            android:targetPackage="com.xbutler.xauto.debug"
             android:targetClass="com.andrerinas.openheadunit.main.AutomationActivity" />
     </shortcut>
     <shortcut
@@ -56,7 +56,7 @@
         android:shortcutLongLabel="@string/shortcut_selfmode_desc">
         <intent
             android:action="com.andrerinas.openheadunit.ACTION_START_SELF_MODE"
-            android:targetPackage="com.miauto.app.debug"
+            android:targetPackage="com.xbutler.xauto.debug"
             android:targetClass="com.andrerinas.openheadunit.main.AutomationActivity" />
     </shortcut>
 
@@ -68,7 +68,7 @@
         android:shortcutLongLabel="@string/shortcut_disconnect_desc">
         <intent
             android:action="com.andrerinas.openheadunit.ACTION_DISCONNECT"
-            android:targetPackage="com.miauto.app.debug"
+            android:targetPackage="com.xbutler.xauto.debug"
             android:targetClass="com.andrerinas.openheadunit.main.AutomationActivity" />
     </shortcut>
 
@@ -80,7 +80,7 @@
         android:shortcutLongLabel="@string/shortcut_exit_desc">
         <intent
             android:action="com.andrerinas.openheadunit.ACTION_STOP_SERVICE"
-            android:targetPackage="com.miauto.app.debug"
+            android:targetPackage="com.xbutler.xauto.debug"
             android:targetClass="com.andrerinas.openheadunit.main.AutomationActivity" />
     </shortcut>
 
@@ -92,7 +92,7 @@
         android:shortcutLongLabel="@string/shortcut_night_mode_day_desc">
         <intent
             android:action="com.andrerinas.openheadunit.ACTION_SET_NIGHT_MODE"
-            android:targetPackage="com.miauto.app.debug"
+            android:targetPackage="com.xbutler.xauto.debug"
             android:targetClass="com.andrerinas.openheadunit.main.AutomationActivity">
             <extra android:name="state" android:value="day" />
         </intent>
@@ -106,7 +106,7 @@
         android:shortcutLongLabel="@string/shortcut_night_mode_night_desc">
         <intent
             android:action="com.andrerinas.openheadunit.ACTION_SET_NIGHT_MODE"
-            android:targetPackage="com.miauto.app.debug"
+            android:targetPackage="com.xbutler.xauto.debug"
             android:targetClass="com.andrerinas.openheadunit.main.AutomationActivity">
             <extra android:name="state" android:value="night" />
         </intent>
@@ -120,7 +120,7 @@
         android:shortcutLongLabel="@string/shortcut_night_mode_auto_desc">
         <intent
             android:action="com.andrerinas.openheadunit.ACTION_SET_NIGHT_MODE"
-            android:targetPackage="com.miauto.app.debug"
+            android:targetPackage="com.xbutler.xauto.debug"
             android:targetClass="com.andrerinas.openheadunit.main.AutomationActivity">
             <extra android:name="state" android:value="auto" />
         </intent>

@@ -1,6 +1,6 @@
-# MiAuto 可行性研究报告
+# xAuto 可行性研究报告
 
-> 目标：把 DiAuto Pro（Android Auto 车机接收端）改造成 **MiAuto** —— 一个能让**小米 CarWith / OPPO Car+ 车联 / vivo Jovi InCar（三者同属 ICCOA CarLink）**投屏上车的车机端应用。
+> 目标：把 DiAuto Pro（Android Auto 车机接收端）改造成 **xAuto** —— 一个能让**小米 CarWith / OPPO Car+ 车联 / vivo Jovi InCar（三者同属 ICCOA CarLink）**投屏上车的车机端应用。
 >
 > **术语澄清（2026-10-13）**：**ICCOA CarLink 是小米、OPPO、vivo 三家联合发起的标准**（联盟 2021-09-28 成立）；**CarWith（小米 / Redmi）/ OPPO Car+ 车联 / vivo Jovi InCar（vivo / iQOO）是同一协议的三个手机侧前端**，车机侧看到的是同一套广告与配对流程。因此本报告里凡是出现「小米 CarWith」的地方，都应理解为「ICCOA CarLink 手机端」的一个实例 —— 报告之所以通篇以 CarWith 取证，只是因为**当时的实测样本就是小米手机**，而不是协议只服务小米。品牌大小写按官方写法：`vivo` 全小写、`OPPO` 全大写。
 >
@@ -8,16 +8,16 @@
 >
 > **修订记录**：
 > - 2026-10-02 晚 —— 依据真实样本 `智慧车联_v1.5.3-支持方控.apk` 的逆向结果，**技术路线由 CarLife 改为 ICCOA CarLink**。详见 [`APK_ANALYSIS_ZHL-v1.5.3.md`](./APK_ANALYSIS_ZHL-v1.5.3.md)。
-> - 2026-10-03 —— **POC-1 编译与打包打通**：SDK 改由 **smali 往返**提取，最小工程 `repos/MiAuto/poc1/` 产出可安装 APK（7.10 MB）。§9.2 / §9.4 / §9.5 按实测重写，三处 API 推测被证伪（无 `stopCast()`、`setCarBrMac(byte[])`、`onInitFailed(int)`）。真机验证待做。
+> - 2026-10-03 —— **POC-1 编译与打包打通**：SDK 改由 **smali 往返**提取，最小工程 `repos/xAuto/poc1/` 产出可安装 APK（7.10 MB）。§9.2 / §9.4 / §9.5 按实测重写，三处 API 推测被证伪（无 `stopCast()`、`setCarBrMac(byte[])`、`onInitFailed(int)`）。真机验证待做。
 > - 2026-10-03 晚 —— **真机反馈修复 + 逻辑对齐样本**。用户实测报告两点：①「点启动按钮就闪退」②「样本打开时显示一个链接码，你的 DEMO 怎么不是这个逻辑？」。逐条修复：**坑 4**（跨 dex 漏 86 个 Tink 类 + 3 个 `easy.logger` 类 → `init()` 时 `NoClassDefFoundError`）已补齐，dex 4,232 → **4,740 类**；**存根字段 `static` 丢失**（§9.4.1.1）已修，`WorkMode.*` 静态常量可正常引用；启动改为**打开即自动初始化**、`onPinCode` 参数语义按 smali 铁证修正为 `(pinCode, carDeviceName)`、`onSelectWorkMode` 改为挑单一模式 —— 三项对齐见 **§9.4.3**。
-> - 2026-10-03 深夜 —— **MiAuto 主工程从 poc1 派生完成并本地编译出完整可装 APK**：包名 `com.miauto.app`；`IccoaManager` 用 **init-once 状态机**根治用户报的「停止→启动不弹链接码」（SDK 的 `init()` 进程一次性，重启只 `reAdvertise()`，绝不重复 init；修复同步落到 poc1）；`app/build.gradle.kts` 内建 `injectIccoaDex` 任务（纯 `java.util.zip`，取代 `tools/package-poc.sh`）把 SDK dex 追加为 `classes4.dex` + `zipalign -p -f 4` + `apksigner` 重签；`NavigationCluster` 作为 **POC-2 接入位**已接 `onNavigationInfoReceived`（屏上浮层显示）。主工程 APK **7,271,616 B** / SHA-256 `ff4e442a…`。详见 **§9.2.1.1**。
+> - 2026-10-03 深夜 —— **xAuto 主工程从 poc1 派生完成并本地编译出完整可装 APK**：包名 `com.xbutler.xauto`；`IccoaManager` 用 **init-once 状态机**根治用户报的「停止→启动不弹链接码」（SDK 的 `init()` 进程一次性，重启只 `reAdvertise()`，绝不重复 init；修复同步落到 poc1）；`app/build.gradle.kts` 内建 `injectIccoaDex` 任务（纯 `java.util.zip`，取代 `tools/package-poc.sh`）把 SDK dex 追加为 `classes4.dex` + `zipalign -p -f 4` + `apksigner` 重签；`NavigationCluster` 作为 **POC-2 接入位**已接 `onNavigationInfoReceived`（屏上浮层显示）。主工程 APK **7,271,616 B** / SHA-256 `ff4e442a…`。详见 **§9.2.1.1**。
 > - 2026-10-03（午）—— **真机复验通过 + POC-2 导航卡 v2 + 应用图标**。用户实测主工程「**断开重连一切正常**」。`NavigationCluster` 重构为**车机仪表级导航卡**（方向图标 / 距离 / 操作 / 路名 / 目的地 / 导航状态 + HUD 镜像）；**★ `NavigationInfo.getDirectionIcon()` 返回 `byte[]`**（`javap` 从 stub 确认）→ 采用**位图解码优先 + 文本箭头回退**的防御式渲染 + 字节诊断日志。新增 **launcher 图标**（「MA」logo，A 底对齐 M 底；自适应图标 + 各密度）。构建通过、签名有效，新 APK **7,785,091 B** / SHA-256 `32277c531c375d4b7f8d46003ca36355f20ab53c87d30acb3ba8e4e7a8b4bb53`。详见 **§9.2.1.2**。
 > - 2026-10-03（下午）—— **应用图标换版 + 毛玻璃底**。用户提供新 logo `branding/MA.png`（宝蓝底 `(63,72,204)` + 橙白「MA」字标）并要求**给蓝底加毛玻璃效果**。做法：从纯平底色软边抠出字形作 alpha 遮罩 → 按「乳白化 + 斜向柔光 + 暗角 + 高光 + 多尺度霜面颗粒（低频云+中频起伏+逐像素细粒）」重建毛玻璃底 → 字形柔光 bloom → 合成母图。自适应图标改为 **`ic_launcher_background`（毛玻璃位图）+ `ic_launcher_foreground`（字形按 0.45×108dp 居中）** 分层；5 密度方形/圆形/前景/背景共 22 个条目。新 APK **7,998,544 B** / SHA-256 `05ee4e789daa44a0ee8f1ef000756711eb75d22f5fbbbbdd3a520a71068ded00`。详见 **§9.2.1.2**。
-> - 2026-10-03（下午·续）—— **车机显示名改为 `MiAutoCar`**。用户要求改掉手机端链接码下方显示的「ICCOA汽车」。根因（smali 铁证）：`com.share.connect.Device.getPName()` / `getShortName()` **无条件硬编码 `return "ICCOA汽车"`**（不读字段，`setPName` 形同虚设）；SDK 内**唯一调用者**是 `UCarConnectProxy.readCarName()`，其结果经 Intent `car_name`/`car_short_name` 交给 `ShareLinkService` → 下发手机显示。解法：baksmali 反汇编 → patch `Device.smali` 两处常量 → `tools/smali/smali.jar` 重汇编 → 新 dex（**7,084,144 B** / SHA-256 `e5236eb6…`）→ 部署 MiAuto + poc1 → 重建 APK（**7,998,544 B** / SHA-256 `f10fe5be…`）。**往返无损已验证**（4740 类反汇编回来 `diff -rq` 零差异）。详见 **§9.2.1.3**。
-> - 2026-10-03（夜·架构重建）—— **MiAuto 由「poc1 派生的极简工程」改为「以 DiAuto 为基座重建」**。起因：用户发现 MiAuto 里**没有设置页**，DiAuto 那套「常规 + 高级」设置（`仪表投屏` / `投屏时机` / `HUD 未识别不显示`）全都不存在。根因：MiAuto 是从 POC-1 派生的最小 Java 工程（仅 4 个类 + 1 个布局 + 275 行 MainActivity）。决策与执行：把 `repos/DiAuto` **完整派生**为 MiAuto 基座 → 品牌化（`applicationId=com.miauto.app`、名称 MiAuto、MA 毛玻璃图标、独立密钥 `miauto-release-key.jks`）→ 保留 DiAuto 全部 UI 与 **13 分类设置体系** → 移植 ICCOA SDK（`compileOnly` stubs + `injectIccoaDex` 把 SDK dex 追加为 **`classes4.dex`**）。**DiAuto 原工程原样保留在 `repos/DiAuto`**，旧 poc 版 MiAuto 归档在 `repos/MiAuto-poc-legacy`。详见 **§9.6**。产物：`com.miauto.app.debug_0.1.0-debug_debug.apk`，**20,738,640 B** / SHA-256 `1c060f38463e3f6089edeaab08c13cc3c6d2824b298535f39ef3c49cd5ff727a`。
-> - 2026-10-03（深夜·协议接线 + 真机「连不上」根因）—— 用户实测反馈两点：①「**装上就是 DiAuto，没有任何不同，也没有链接码**」②「**手机不弹窗连接、点开始配对无效**」。逐条定位并修复**四个根因**（详见 **§9.7**）：**(a)** ICCOA SDK 全工程**零调用**（`IccoaManager` 无人 new，SDK 装进去却从未启动）→ 新增 `connection/IcocaBridge.kt` 桥接 + `MainActivity` 启动广播；**(b)** 首页文案仍是 `DiAuto`/`Android Auto` → 5 语言包重写为 MiAuto + ICCOA 语义，并跳过 AA 设置向导；**(c)** ★ **SDK 的清单组件与权限随清单合并一起丢失** —— 4 个 `com.share.connect.*` Service（BLE 广播 / 会话共享 / WiFi-AP / WiFi-P2P）+ `androidx.room.MultiInstanceInvalidationService` 未注册、`TETHER_PRIVILEGED` / `OVERRIDE_WIFI_CONFIG` / `NETWORK_SETTINGS` / `NETWORK_STACK` / `LOCAL_MAC_ADDRESS` 等权限缺失 → **`startAdvertise()` 静默失败，手机根本发现不到车机**（这才是「不弹窗、无配对码」的直接根因）；**(d)** ★ **SDK 的运行期传递依赖丢失** —— dex 解析确认 SDK dex 内 `androidx/room/*` **定义数 = 0**（仅引用），缺 `androidx.room:room-runtime` → 补 `implementation("androidx.room:room-runtime:2.4.3")`。同时按用户要求把首页改为**荣耀车联式全自动**（移除「开始配对」「通过蓝牙配对」按钮；配对码自动出现、断开后自动重新广播并刷新），并用 `BuildConfig.ICCOA_ONLY` 关掉 `AapService` 抢 WiFi P2P/SoftAP 的 AA 副作用。产物：**20,816,877 B** / SHA-256 `6f6f4b6befd18d5a0d0ad0cda33f097be490995c8e9b8c39c592100fe97d0c9c`（注入 dex 顺延为 **`classes5.dex`**）。
-> - 2026-10-03（深夜·续：配对码周期重播 + 文案合规）—— 用户真机反馈 **「能正常连接了」**（§9.7 修复生效），并提出两点：①「**断开后刷新的链接码如果当时没人连，后面就不再刷新；手机关掉弹窗后就再也连不上**」② 首页文案要去掉「小米」字样、加免责声明。逐条处理（详见 **§9.8**）：**(a) ★ 配对码 30 秒看门狗** —— 根因是「车机一直在广播」**不等于**「手机能重新发现」（**BLE 广播帧不变时手机端 CarWith 不会重新弹窗**），故只做「断开刷新一次」必然断链；**且重播必须是 `stopAdvertise()` → `startAdvertise()`**（对已广播链路重复 `startAdvertise()` 会被 SDK 直接忽略），并加 `sessionActive` / `castStarted` 避让与 `onPinCode` 计时重置，另加「刷新配对码」手动按钮；**(b)** 首页文案去厂商名：`MiAutoCar · 车机端` / `MIAUTO CARLINK · CARWITH` /「把手机投屏到这块车机屏幕或仪表盘/HUD。」，5 语言同步；**(c)** 首页底部新增法务声明 `da_legal`（非 BYD 官方、与 ICCOA / 小米无隶属或授权关系、仅供学习交流、禁止商用）；**(d)** 顺带修掉 `tryStartCast()` 的**无上限 500ms 自我重试**（待机页无 Surface → 永不停止的定时器 = 持续耗电）。产物：**20,825,069 B** / SHA-256 `917fe3eaa0c46a5f5890b7cf36d295a5f80288673d4fc8103b6164a17d785163`，`apksigner verify` EXIT=0。
-> - 2026-10-13 —— **公开仓库落地 + 文案口径放宽（v0.1.1）**。仓库发布到 `github.com/PiggyBackBayonet/MiAuto`（站点 + Release 见 README）。用户指出「手机端不应该只写小米」：ICCOA CarLink 是小米/OPPO/vivo 联合发起，故把**所有对外文案**统一为「小米 CarWith / OPPO Car+ 车联 / vivo Jovi InCar」。v0.1.1 覆盖的是 v0.1.0 里**打包进 APK、当时未及同步**的部分：首页 `da_description` / `da_hint` / `da_wireless`、五语言 `da_legal`（并补上 ICCOA CarLink 的归属说明）、`support_rules_phone_desc`（3 语言）、`AboutFragment` 正文与免责句、`CHANGELOG*.md`、`docs/INSTALL.md`；另**新增 `values-zh-rTW/diauto.xml`**（原先 zh-TW 下 `da_*` 整组回退英文）。**纯文案，行为与 0.1.0 一致**。
+> - 2026-10-03（下午·续）—— **车机显示名改为 `xAutoCar`**。用户要求改掉手机端链接码下方显示的「ICCOA汽车」。根因（smali 铁证）：`com.share.connect.Device.getPName()` / `getShortName()` **无条件硬编码 `return "ICCOA汽车"`**（不读字段，`setPName` 形同虚设）；SDK 内**唯一调用者**是 `UCarConnectProxy.readCarName()`，其结果经 Intent `car_name`/`car_short_name` 交给 `ShareLinkService` → 下发手机显示。解法：baksmali 反汇编 → patch `Device.smali` 两处常量 → `tools/smali/smali.jar` 重汇编 → 新 dex（**7,084,144 B** / SHA-256 `e5236eb6…`）→ 部署 xAuto + poc1 → 重建 APK（**7,998,544 B** / SHA-256 `f10fe5be…`）。**往返无损已验证**（4740 类反汇编回来 `diff -rq` 零差异）。详见 **§9.2.1.3**。
+> - 2026-10-03（夜·架构重建）—— **xAuto 由「poc1 派生的极简工程」改为「以 DiAuto 为基座重建」**。起因：用户发现 xAuto 里**没有设置页**，DiAuto 那套「常规 + 高级」设置（`仪表投屏` / `投屏时机` / `HUD 未识别不显示`）全都不存在。根因：xAuto 是从 POC-1 派生的最小 Java 工程（仅 4 个类 + 1 个布局 + 275 行 MainActivity）。决策与执行：把 `repos/DiAuto` **完整派生**为 xAuto 基座 → 品牌化（`applicationId=com.xbutler.xauto`、名称 xAuto、MA 毛玻璃图标、独立密钥 `xauto-release-key.jks`）→ 保留 DiAuto 全部 UI 与 **13 分类设置体系** → 移植 ICCOA SDK（`compileOnly` stubs + `injectIccoaDex` 把 SDK dex 追加为 **`classes4.dex`**）。**DiAuto 原工程原样保留在 `repos/DiAuto`**，旧 poc 版 xAuto 归档在 `repos/xAuto-poc-legacy`。详见 **§9.6**。产物：`com.xbutler.xauto.debug_0.1.0-debug_debug.apk`，**20,738,640 B** / SHA-256 `1c060f38463e3f6089edeaab08c13cc3c6d2824b298535f39ef3c49cd5ff727a`。
+> - 2026-10-03（深夜·协议接线 + 真机「连不上」根因）—— 用户实测反馈两点：①「**装上就是 DiAuto，没有任何不同，也没有链接码**」②「**手机不弹窗连接、点开始配对无效**」。逐条定位并修复**四个根因**（详见 **§9.7**）：**(a)** ICCOA SDK 全工程**零调用**（`IccoaManager` 无人 new，SDK 装进去却从未启动）→ 新增 `connection/IcocaBridge.kt` 桥接 + `MainActivity` 启动广播；**(b)** 首页文案仍是 `DiAuto`/`Android Auto` → 5 语言包重写为 xAuto + ICCOA 语义，并跳过 AA 设置向导；**(c)** ★ **SDK 的清单组件与权限随清单合并一起丢失** —— 4 个 `com.share.connect.*` Service（BLE 广播 / 会话共享 / WiFi-AP / WiFi-P2P）+ `androidx.room.MultiInstanceInvalidationService` 未注册、`TETHER_PRIVILEGED` / `OVERRIDE_WIFI_CONFIG` / `NETWORK_SETTINGS` / `NETWORK_STACK` / `LOCAL_MAC_ADDRESS` 等权限缺失 → **`startAdvertise()` 静默失败，手机根本发现不到车机**（这才是「不弹窗、无配对码」的直接根因）；**(d)** ★ **SDK 的运行期传递依赖丢失** —— dex 解析确认 SDK dex 内 `androidx/room/*` **定义数 = 0**（仅引用），缺 `androidx.room:room-runtime` → 补 `implementation("androidx.room:room-runtime:2.4.3")`。同时按用户要求把首页改为**荣耀车联式全自动**（移除「开始配对」「通过蓝牙配对」按钮；配对码自动出现、断开后自动重新广播并刷新），并用 `BuildConfig.ICCOA_ONLY` 关掉 `AapService` 抢 WiFi P2P/SoftAP 的 AA 副作用。产物：**20,816,877 B** / SHA-256 `6f6f4b6befd18d5a0d0ad0cda33f097be490995c8e9b8c39c592100fe97d0c9c`（注入 dex 顺延为 **`classes5.dex`**）。
+> - 2026-10-03（深夜·续：配对码周期重播 + 文案合规）—— 用户真机反馈 **「能正常连接了」**（§9.7 修复生效），并提出两点：①「**断开后刷新的链接码如果当时没人连，后面就不再刷新；手机关掉弹窗后就再也连不上**」② 首页文案要去掉「小米」字样、加免责声明。逐条处理（详见 **§9.8**）：**(a) ★ 配对码 30 秒看门狗** —— 根因是「车机一直在广播」**不等于**「手机能重新发现」（**BLE 广播帧不变时手机端 CarWith 不会重新弹窗**），故只做「断开刷新一次」必然断链；**且重播必须是 `stopAdvertise()` → `startAdvertise()`**（对已广播链路重复 `startAdvertise()` 会被 SDK 直接忽略），并加 `sessionActive` / `castStarted` 避让与 `onPinCode` 计时重置，另加「刷新配对码」手动按钮；**(b)** 首页文案去厂商名：`xAutoCar · 车机端` / `MIAUTO CARLINK · CARWITH` /「把手机投屏到这块车机屏幕或仪表盘/HUD。」，5 语言同步；**(c)** 首页底部新增法务声明 `da_legal`（非 BYD 官方、与 ICCOA / 小米无隶属或授权关系、仅供学习交流、禁止商用）；**(d)** 顺带修掉 `tryStartCast()` 的**无上限 500ms 自我重试**（待机页无 Surface → 永不停止的定时器 = 持续耗电）。产物：**20,825,069 B** / SHA-256 `917fe3eaa0c46a5f5890b7cf36d295a5f80288673d4fc8103b6164a17d785163`，`apksigner verify` EXIT=0。
+> - 2026-10-13 —— **公开仓库落地 + 文案口径放宽（v0.1.1）**。仓库发布到 `github.com/PiggyBackBayonet/xAuto`（站点 + Release 见 README）。用户指出「手机端不应该只写小米」：ICCOA CarLink 是小米/OPPO/vivo 联合发起，故把**所有对外文案**统一为「小米 CarWith / OPPO Car+ 车联 / vivo Jovi InCar」。v0.1.1 覆盖的是 v0.1.0 里**打包进 APK、当时未及同步**的部分：首页 `da_description` / `da_hint` / `da_wireless`、五语言 `da_legal`（并补上 ICCOA CarLink 的归属说明）、`support_rules_phone_desc`（3 语言）、`AboutFragment` 正文与免责句、`CHANGELOG*.md`、`docs/INSTALL.md`；另**新增 `values-zh-rTW/diauto.xml`**（原先 zh-TW 下 `da_*` 整组回退英文）。**纯文案，行为与 0.1.0 一致**。
 
 ---
 
@@ -27,7 +27,7 @@
 
 三句话结论：
 
-1. **不需要逆向小米的协议。** CarWith 在车机侧**没有自己的私有协议**，它是一个"外壳"，复用车机自带的 **百度 CarLife / 亿连 / ICCOA CarLink** 三条通道之一（CarWith 包名 `com.miui.carlink`）。所以 MiAuto 要做的是**一个车机端互联应用**，而不是"模拟小米车机"。
+1. **不需要逆向小米的协议。** CarWith 在车机侧**没有自己的私有协议**，它是一个"外壳"，复用车机自带的 **百度 CarLife / 亿连 / ICCOA CarLink** 三条通道之一（CarWith 包名 `com.miui.carlink`）。所以 xAuto 要做的是**一个车机端互联应用**，而不是"模拟小米车机"。
 
 2. **走 ICCOA CarLink 路线 —— 有现成的车机端 SDK，是成品组件，不是源码工程。** 一个真实样本（吉利换皮的 ICCOA 官方 demo，`智慧车联_v1.5.3-支持方控.apk`）**装到用户自己的车机上后，用户的小米手机直接识别并连接成功**。从该样本逆向出：
    - SDK 门面只有几个方法：`UCarAdapter.init()` / `startAdvertise()` / `startCast(Surface, w, h)` / `sendTouchEvent()`
@@ -57,7 +57,7 @@ CarWith 的机制是：**借用原车机的互联通道，把车机画面换成�
 | **百度 CarLife** | ⚠️ **要** —— 首次连接时自动下载安装「CarLife 组件」，实测文章比喻为"翻译官"。**版本不受你控制**，且实测成功率被描述为偏低 |
 | **ICCOA CarLink** | ✅ **不要** —— CarWith **原生集成** ICCOA 车机端识别逻辑。车机装好 ICCOA 车机端 App，手机端直接扫到即连（用户实测确认） |
 
-这直接决定技术路线：**MiAuto 应做 ICCOA CarLink 车机端 —— 这是 CarWith 的一等公民通道；CarLife 降为备选。**
+这直接决定技术路线：**xAuto 应做 ICCOA CarLink 车机端 —— 这是 CarWith 的一等公民通道；CarLife 降为备选。**
 
 ### 1.2 连接方式（ICCOA 侧）
 
@@ -69,7 +69,7 @@ CarWith 的机制是：**借用原车机的互联通道，把车机画面换成�
 | **无线·手机热点** | WiFi STA | AP（5GHz） | 手机开热点，车机去连 | 一般，信号差会掉（ICCOA SDK 侧支持度待验证） |
 | **无感连接** | BLE GATT 广播 | — | 蓝牙识别 → 自动建链 | 体验最好，`startAdvertise()` 已封装 |
 
-> ⚠️ **第 4 行是 DiAuto Pro 需要"反过来"的地方**：Android Auto 无线是**车机做 AP**，CarWith 也支持**手机做 AP、车机做 STA**。DiAuto Pro 里的 `SoftApCredentialsProvider` / `HotspotManager` / `LocalHotspotPolicy` 在 MiAuto 里要改造或反向使用。
+> ⚠️ **第 4 行是 DiAuto Pro 需要"反过来"的地方**：Android Auto 无线是**车机做 AP**，CarWith 也支持**手机做 AP、车机做 STA**。DiAuto Pro 里的 `SoftApCredentialsProvider` / `HotspotManager` / `LocalHotspotPolicy` 在 xAuto 里要改造或反向使用。
 >
 > 好消息：ICCOA SDK 已内置三种传输（AOA / SoftAP / P2P），由 `UCarConfig.setSupportedWorkModes()` 声明，**大部分传输细节不用自己写**。
 
@@ -125,7 +125,7 @@ CarWith 的机制是：**借用原车机的互联通道，把车机画面换成�
 | 版本漂移风险 | 🔴 SDK 停在 2022-04，CarWith 已到 2026 3.8.x | 🟡 样本是 2024-01 的 SDK v1.5.x，仍落后但更近 |
 | 与小米 CarWith 的匹配度 | 需要 CarWith 侧"CarLife 组件"当翻译层，实测成功率被描述为"低于 30%" | **CarWith 原生支持 ICCOA**，实测成功率接近 100% |
 
-**结论：MiAuto 改走 ICCOA CarLink 路线。**
+**结论：xAuto 改走 ICCOA CarLink 路线。**
 
 > ⚠️ 两条路线**共同的法律边界**：ICCOA SDK 是联盟发给成员的凭据。自己做、自己用没问题；**要对外发布产品仍需过认证**。详见分析报告 §8 风险表。
 
@@ -328,7 +328,7 @@ interface AccessoryConnection {
 ```
 
 ```
-┌──────────────────────── MiAuto（改造后） ─────────────────────────┐
+┌──────────────────────── xAuto（改造后） ─────────────────────────┐
 │                                                                   │
 │  ┌──────────── 保留自 DiAuto Pro（几乎不改） ────────────┐        │
 │  │  decoder/VideoDecoder.kt      H.264/H.265 软硬解      │        │
@@ -362,7 +362,7 @@ interface AccessoryConnection {
 │  │  assets/ccd.data              (车辆证书，可自备)        │        │
 │  └───────────────────────────────────────────────────────┘        │
 │                                                                   │
-│  ┌──────────── 新增：适配层（MiAuto 自写，主要工作量）────┐       │
+│  ┌──────────── 新增：适配层（xAuto 自写，主要工作量）────┐       │
 │  │  IPhoneDataListener.NavigationInfo → AapNavigation      │       │
 │  │    → cluster/ 的 BYD 仪表图层（fission_bg_*）           │       │
 │  │    → HUD 承载（挡风玻璃）                                │       │
@@ -387,7 +387,7 @@ interface AccessoryConnection {
 
 ## 6. 三条落地方案
 
-MiAuto = **DiAuto Pro 的"后半身"** + **ICCOA CarLink SDK 的"前半身"**。
+xAuto = **DiAuto Pro 的"后半身"** + **ICCOA CarLink SDK 的"前半身"**。
 
 ### 方案 A：直接复用现成 demo（0 开发）
 
@@ -400,9 +400,9 @@ MiAuto = **DiAuto Pro 的"后半身"** + **ICCOA CarLink SDK 的"前半身"**。
 
 > **定位**：不做产品，只做 **POC-0 的对照组**（见 §9）。
 
-### 方案 B：提取 SDK 融入 MiAuto（★ 推荐）
+### 方案 B：提取 SDK 融入 xAuto（★ 推荐）
 
-从样本 APK 中提取 ICCOA SDK（`com.ucar.*` + `com.share.connect.*` + 2 个 so + `ccd.data`），作为**成品组件**引入 MiAuto 工程；自写一层适配层把 ICCOA 事件接进 DiAuto 现有渲染/仪表/HUD 链路。
+从样本 APK 中提取 ICCOA SDK（`com.ucar.*` + `com.share.connect.*` + 2 个 so + `ccd.data`），作为**成品组件**引入 xAuto 工程；自写一层适配层把 ICCOA 事件接进 DiAuto 现有渲染/仪表/HUD 链路。
 
 | 优点 | 缺点 |
 |---|---|
@@ -462,7 +462,7 @@ MiAuto = **DiAuto Pro 的"后半身"** + **ICCOA CarLink SDK 的"前半身"**。
 | **R6** | **第三方换皮 + 水印证书** | 🟡 中 | 包是吉利换皮的 ICCOA 官方 demo，内置证书带**泄漏溯源水印**（`short_name` 里夹 `0/1/2/3`），`vendor_id=0001` | 用 `setCcdFilePath()` 换成**自造证书**（校验逻辑为零，见 §3.4）。不要原样分发这份带水印的包 |
 | **R7** | **无开源、无许可证** | 🟡 中 | 样本**未附任何 LICENSE**，SDK 与原生库的来源/授权范围不明 | 自用无碍；**公开分发前**需澄清授权（这本质上等同于第 R8 条）。README 不声称"官方 SDK" |
 | **R8** | **联盟凭据合规** | 🟡 中 | ICCOA 车机端 SDK 是联盟发给成员的**凭据**。自己做、自己用没问题；**要对外发布产品仍需过 ICCOA 认证** | 保持"个人自用 / 自研"边界；若要对公众发布 → 走 §10 的合规路径 |
-| **R9** | **AGPL-3.0 传染性** | 🟢 低 | DiAuto Pro 是 **AGPL-3.0**（LICENSE 661 行）。fork 出的 MiAuto **必须同样 AGPL 开源**，不能闭源商业化 | 接受开源；若需闭源，得从零写（工作量翻倍） |
+| **R9** | **AGPL-3.0 传染性** | 🟢 低 | DiAuto Pro 是 **AGPL-3.0**（LICENSE 661 行）。fork 出的 xAuto **必须同样 AGPL 开源**，不能闭源商业化 | 接受开源；若需闭源，得从零写（工作量翻倍） |
 | **R10** | **无线方向相反** | 🟢 低 | AA 是**车机做 AP**，CarWith 也支持**手机做 AP、车机做 STA** | ICCOA SDK 已带三种传输（`setSupportedWorkModes()`），额外加 STA 模式工作量不大 |
 
 **R3 值得单独展开** —— 这是本路线**最容易被低估**的一条。样本的设计场景是**车机厂商预装**（系统应用），而我们面对的是**用户自己 adb install 的普通 APK**：
@@ -481,7 +481,7 @@ MiAuto = **DiAuto Pro 的"后半身"** + **ICCOA CarLink SDK 的"前半身"**。
 >
 > **POC-1 现状（2026-10-03）**：可安装 APK 已产出（`poc1/app/build/outputs/apk/debug/app-debug-poc.apk`，7.10 MB），权限清单照抄样本的可用子集。**上述权限在普通 `adb install` 下是否被拒，仍需真机逐项验证**（`poc1/README.md` §五 有完整的 `pm grant` 与判定表）。
 
-**R2 也值得说明**：这不是"取证式"的项目 —— MiAuto 做的是**ICCOA 车机端实现**，CarWith 主动来连是它自己支持的行为。我们没有反编译 CarWith、没有模拟小米服务、没有绕过任何加密。保持这个边界即可。
+**R2 也值得说明**：这不是"取证式"的项目 —— xAuto 做的是**ICCOA 车机端实现**，CarWith 主动来连是它自己支持的行为。我们没有反编译 CarWith、没有模拟小米服务、没有绕过任何加密。保持这个边界即可。
 
 ---
 
@@ -496,12 +496,12 @@ POC-0 ─ 基准验证（10 分钟）          ← 已有事实：用户实测�
 
 POC-1 ─ 最小可编程载体（✅ 编译打包已通 / ⏳ 真机待验）  ← 决定"能否自己控制"
   ☑ 导出 SDK：jadx 对本样本挂起 → 改走 **smali 往返**（baksmali→筛包→smali assemble）
-  ☑ 新建空工程（`applicationId=com.miauto.poc1`），只保留 SDK dex + 2 个 so + ccd.data
+  ☑ 新建空工程（`applicationId=com.xbutler.xauto.poc1`），只保留 SDK dex + 2 个 so + ccd.data
   ☑ 生成编译存根 jar（`compileOnly`，不进 APK）
   ☑ 写 MainActivity：UCarAdapter.init() + startAdvertise() + 纯色 Surface 上 startCast()
   ☑ 打包出 `app-debug-poc.apk`（7.10 MB；`classes4.dex` 注入 + zipalign + 重签）
   ☑ 静态校验：13 项跨 dex 关键类全部解析
-  ☑ **MiAuto 主工程（`repos/MiAuto/`，包名 `com.miauto.app`）已从 poc1 派生并本地编译出完整可装 APK**（7.27 MB；内建 `injectIccoaDex` 任务自动注入 `classes4.dex` + zipalign + apksigner 重签；init-once 状态机根治「停止→启动不弹链接码」；`NavigationCluster` 已接 `onNavigationInfoReceived` 作 POC-2 接入位）。详见 §9.2.1.1
+  ☑ **xAuto 主工程（`repos/xAuto/`，包名 `com.xbutler.xauto`）已从 poc1 派生并本地编译出完整可装 APK**（7.27 MB；内建 `injectIccoaDex` 任务自动注入 `classes4.dex` + zipalign + apksigner 重签；init-once 状态机根治「停止→启动不弹链接码」；`NavigationCluster` 已接 `onNavigationInfoReceived` 作 POC-2 接入位）。详见 §9.2.1.1
   ☐ **真机**：手机连上来 → 看到纯色画面 = 前半身打通
   ☐ 逐项测试 8 个私有权限在普通安装下是否被拒（R3）
 
@@ -513,7 +513,7 @@ POC-2 ─ 导航承载层（★ GO/NO-GO，实现完成 / ⏳ 真机判定）
   ☐ （后续可选）把导航卡并进 DiAuto `cluster/` BYD 仪表图层（fission_bg_*）做深度定制
 
 P1 ─ 有线 USB 跑通（1 周）
-  ☐ 方案 B 正式并入 MiAuto：替换 aap/ 为 ICCOA 适配层
+  ☐ 方案 B 正式并入 xAuto：替换 aap/ 为 ICCOA 适配层
   ☐ 验证：画面/触摸回控/音频/麦克风四项全通
   ☐ 用自造 ccd.data 替换水印证书（R6）
 
@@ -556,7 +556,7 @@ P5 ─ CarWith 特有 UI 特性（按需）
 
 **目标**：证明"我们自己写的 App 也能被小米手机识别"—— 与"直接用现成 demo"的本质区别。
 
-**工程位置**：`repos/MiAuto/poc1/`（`applicationId = com.miauto.poc1`，**与样本 `com.geely.carlink` 不同**；变量只有一个：包名）。
+**工程位置**：`repos/xAuto/poc1/`（`applicationId = com.xbutler.xauto.poc1`，**与样本 `com.geely.carlink` 不同**；变量只有一个：包名）。
 **操作手册（最详细）**：见 [`../poc1/README.md`](../poc1/README.md)。
 
 #### 9.2.1 实测状态（2026-10-03）
@@ -577,15 +577,15 @@ P5 ─ CarWith 特有 UI 特性（按需）
 > 1. 「**点启动按钮就闪退**」→ 根因：跨 dex 漏 86 个 Tink 类 + 3 个 `easy.logger` 类（§9.4.1 坑 4），已修。
 > 2. 「**崩溃：startPipeline**」→ 根因：`setCarBrMac()` 收到 17 字节 ASCII MAC 而 SDK 要求**恰好 6 字节二进制**，直接抛 `InvalidParameterException`（§9.4.1 坑 5 + §9.4.1.2 校验表），已修；同时补上 `BLUETOOTH_SCAN`/`BLUETOOTH_CONNECT` 权限、崩溃信息进状态行、一键「复制日志」按钮。
 
-##### 9.2.1.1 MiAuto 主工程（从 poc1 派生，2026-10-03 本地编译通过）
+##### 9.2.1.1 xAuto 主工程（从 poc1 派生，2026-10-03 本地编译通过）
 
-**工程位置**：`repos/MiAuto/`（`applicationId = com.miauto.app`，version `0.1.0`，minSdk 27 / targetSdk 30 / compileSdk 34）。
+**工程位置**：`repos/xAuto/`（`applicationId = com.xbutler.xauto`，version `0.1.0`，minSdk 27 / targetSdk 30 / compileSdk 34）。
 
 从 `poc1/` 复制脚手架（gradle wrapper、assets、jniLibs、`icar-sdk.dex`、stubs、res），新建 `AndroidManifest.xml` 与 4 个 Java 类：
 
 | 文件 | 职责 |
 |---|---|
-| `MiAutoApp.java` | `Application`：全局崩溃写盘 `crash_<ts>.txt` + `miauto_run.log`；`probeNativeLibraries()` 预载 `ovmsink`/`usbio` |
+| `xAutoApp.java` | `Application`：全局崩溃写盘 `crash_<ts>.txt` + `xauto_run.log`；`probeNativeLibraries()` 预载 `ovmsink`/`usbio` |
 | `IccoaManager.java` | **SDK 生命周期 + init-once 状态机** + `IccoaUi` 回调接口 + 6 方法 `ICarConnectListener` + 9 方法 `IPhoneDataListener`；`buildConfig()` 已 clamp + 6 字节 `setCarBrMac` + 缓存作废重生成 |
 | `NavigationCluster.java` | **POC-2 接入位 v2**：`onNavigation(info)` → 车机仪表级导航卡（方向图标 `byte[]` 位图解码/文本箭头回退 + 距离/操作/路名/目的地/状态 + HUD 镜像） |
 | `MainActivity.java` | UI 层：打开即 `autoStart`、5 按钮（启动/停止/重显链接码/复制日志/**HUD 镜像**）、Surface 回调补 `startCast`、一键复制日志 |
@@ -607,9 +607,9 @@ P5 ─ CarWith 特有 UI 特性（按需）
 
 | 产物 | 大小 | SHA-256 |
 |---|---|---|
-| `app/build/outputs/apk/debug/app-debug.apk`（含毛玻璃图标 + 车机名 `MiAutoCar`） | 7,998,544 B | `f10fe5be691fc0126b322d7822beb731404f9517e2768e75894c4844fad852ad` |
+| `app/build/outputs/apk/debug/app-debug.apk`（含毛玻璃图标 + 车机名 `xAutoCar`） | 7,998,544 B | `f10fe5be691fc0126b322d7822beb731404f9517e2768e75894c4844fad852ad` |
 
-含 `classes.dex`(6,731,120) + `classes2`(158,932) + `classes3`(42,852) + **`classes4.dex`(7,084,144 = 已 patch 的 SDK dex)** + `lib/arm64-v8a/libovmsink.so`(1,481,168) + `libusbio.so`(215,040) + `assets/ccd.data`(2,120) + `res/mipmap-*` 全套图标（方形/圆形/自适应前景/背景，5 密度，共 22 条目）。`apksigner verify` EXIT=0；`aapt2 dump badging` 确认 `application: icon='res/mipmap-anydpi-v26/ic_launcher.xml'`；`dexdump classes4.dex` 确认 `com.ucar.*` 齐全；APK 内 `classes4.dex` 含 `MiAutoCar` ×1、`ICCOA汽车` ×0。
+含 `classes.dex`(6,731,120) + `classes2`(158,932) + `classes3`(42,852) + **`classes4.dex`(7,084,144 = 已 patch 的 SDK dex)** + `lib/arm64-v8a/libovmsink.so`(1,481,168) + `libusbio.so`(215,040) + `assets/ccd.data`(2,120) + `res/mipmap-*` 全套图标（方形/圆形/自适应前景/背景，5 密度，共 22 条目）。`apksigner verify` EXIT=0；`aapt2 dump badging` 确认 `application: icon='res/mipmap-anydpi-v26/ic_launcher.xml'`；`dexdump classes4.dex` 确认 `com.ucar.*` 齐全；APK 内 `classes4.dex` 含 `xAutoCar` ×1、`ICCOA汽车` ×0。
 
 **应用图标（毛玻璃版，2026-10-03 下午换版）**：源图 `branding/MA.png`（宝蓝 `(63,72,204)` + 橙白「MA」字标）经三步派生：
 
@@ -644,7 +644,7 @@ P5 ─ CarWith 特有 UI 特性（按需）
 
 **待真机判定**：连上小米手机跑导航，确认 ① 导航卡实时刷新 ② 方向图标真实格式。数据能稳定落地 → POC-2 通过，进入工程化；并入 DiAuto `cluster/` BYD 仪表图层（`fission_bg_*`）为后续可选的深度定制（§5 / §9.3）。
 
-#### 9.2.1.3 车机显示名 patch（「ICCOA汽车」→「MiAutoCar」，2026-10-03）
+#### 9.2.1.3 车机显示名 patch（「ICCOA汽车」→「xAutoCar」，2026-10-03）
 
 **现象**：车机开始广播后，手机端输入链接码界面下方把车机显示为「ICCOA汽车」。
 
@@ -671,11 +671,11 @@ Device.getPName() / getShortName()            ← 硬编码 "ICCOA汽车"
 **改法**（无 API 入口，只能 patch dex）：
 
 1. `java -jar tools/baksmali.jar d app/libs/icar-sdk.dex -o .work/sdk_smali`（4740 类）；
-2. `com/share/connect/Device.smali` 中两处 `ICCOA\u6c7d\u8f66` → `MiAutoCar`；
+2. `com/share/connect/Device.smali` 中两处 `ICCOA\u6c7d\u8f66` → `xAutoCar`；
 3. `java -Xmx4g -cp tools/smali/* org.jf.smali.Main assemble .work/sdk_smali -o icar-sdk-new.dex`；
 4. 部署到 `app/libs/`（**先写 `.work` 再 `mv` 进 `app/libs`**，否则 Gradle 持有句柄会拒绝访问）→ `assembleDebug` 自动注入重建 APK。
 
-**验证**：新 dex **7,084,144 B**（原 7,084,148，仅短 4 B = 字符串变短后的 section 对齐位移）/ 4740 类 / DEX `035`；将新 dex **反汇编回来与 patch 输入 `diff -rq` 零差异**（证明 smali 往返保真、无类丢失、无意外改动）；APK 内 `classes4.dex` 含 `MiAutoCar` ×1、`ICCOA汽车` ×0；签名 `EXIT=0`。
+**验证**：新 dex **7,084,144 B**（原 7,084,148，仅短 4 B = 字符串变短后的 section 对齐位移）/ 4740 类 / DEX `035`；将新 dex **反汇编回来与 patch 输入 `diff -rq` 零差异**（证明 smali 往返保真、无类丢失、无意外改动）；APK 内 `classes4.dex` 含 `xAutoCar` ×1、`ICCOA汽车` ×0；签名 `EXIT=0`。
 
 > 说明：`ICCOA` 字样仍余 8 处（`ICCOA_CARLINK` 协议版本常量等），属协议标识，非显示名，保留正确。
 
@@ -739,7 +739,7 @@ adapter.init(appContext, cfg, new ICarInitCallback() {
 
 **POC-1 通过只说明"能连"**；POC-2 才回答**"连上之后有没有价值"**：
 
-> 如果从 ICCOA 拿到的导航信息（方向图标/距离/路名）接不进 DiAuto 的 BYD 仪表盘/HUD，那 MiAuto 就退化成一个"能投屏的车机 App"——而现成 demo（方案 A）已经做到了，**项目就没有存在意义**。
+> 如果从 ICCOA 拿到的导航信息（方向图标/距离/路名）接不进 DiAuto 的 BYD 仪表盘/HUD，那 xAuto 就退化成一个"能投屏的车机 App"——而现成 demo（方案 A）已经做到了，**项目就没有存在意义**。
 
 所以 **POC-2 的结论直接决定 GO / NO-GO**，不要跳过。
 
@@ -858,12 +858,12 @@ isSupportDataTransfer()       → DATA_TRANSFER
 
 ---
 
-### 9.6 MiAuto 架构重建：以 DiAuto 为基座（2026-10-03 夜）
+### 9.6 xAuto 架构重建：以 DiAuto 为基座（2026-10-03 夜）
 
 **触发**：用户报告「**HUD 开关和仪表投屏等设置怎么消失了？应该和 DiAuto 保持一致**」。
 
-**根因（代码级）**：上一版 MiAuto 是从 POC-1 派生的**极简 Java 工程** —— `repos/MiAuto/app` 只有
-4 个类（`MiAutoApp` / `IccoaManager` / `NavigationCluster` / `MainActivity`）+ 1 个布局 `activity_main.xml`，
+**根因（代码级）**：上一版 xAuto 是从 POC-1 派生的**极简 Java 工程** —— `repos/xAuto/app` 只有
+4 个类（`xAutoApp` / `IccoaManager` / `NavigationCluster` / `MainActivity`）+ 1 个布局 `activity_main.xml`，
 **没有菜单入口、没有任何 `Settings`/`Preference`/`SharedPreferences` 设置存储**。
 而 DiAuto 的设置体系是 `main/SettingsActivity.kt` + `main/SettingsFragment.kt`（3644 行）+ `utils/Settings.kt`（1653 行），
 按 **13 个分类**组织：常规 · 无线连接 · 深色模式 · 自动化 · **导航** · 图形 · 视频 · 输入 · 音频 · 备份 · 重置 · 调试 · 信息。
@@ -875,15 +875,15 @@ isSupportDataTransfer()       → DATA_TRANSFER
 | **投屏时机**（常开/巡航和导航/仅导航）| `cluster-map-trigger` | `SettingsFragment.kt:1245` | 无条件显示（`SegmentedButton`） |
 | **HUD（比亚迪抬头显示和仪表盘）** | `byd-navigation-enabled` | `SettingsFragment.kt:1203` | **`BydNavigationOutputs.available(ctx)`** —— SDK≥28 且（独立 HUD 可用 或 装了 `com.byd.amapservice`/`com.ts.car.someip.service`）。**这就是「HUD 未识别时不显示该开关」**；旁边还留了无条件的「比亚迪通道诊断」入口解释开关为何缺失（`SettingsFragment.kt:1219`）|
 
-**决策**：以 `repos/DiAuto` **完整派生**为 MiAuto 基座，保留 DiAuto 全部 UI 与设置，把手机侧协议换成 ICCOA。
+**决策**：以 `repos/DiAuto` **完整派生**为 xAuto 基座，保留 DiAuto 全部 UI 与设置，把手机侧协议换成 ICCOA。
 
 **执行（可复现）**：
 
-1. 归档旧版 → `repos/MiAuto-poc-legacy`；`tar` 排除 `.git/.github/build/.gradle/.cxx/site` 复制 DiAuto → `repos/MiAuto`（275 个 `.kt/.java` + `cpp` + `jniLibs` + `contract` 模块）。
-2. 品牌化：`settings.gradle.kts` `rootProject.name=MiAuto`；`app/build.gradle.kts` `applicationId=com.miauto.app` / `versionName=0.1.0` / debug 后缀 `.debug`；`app/src/debug/res/xml/shortcuts.xml` 7 处 `targetPackage` 同步（否则 `androidComponents` 的漂移检查会让构建失败）→ 21 个语言包的 `title`/`app_name` → `MiAuto`；debug manifest 的 `android:label` → `MiAuto (debug)`。
+1. 归档旧版 → `repos/xAuto-poc-legacy`；`tar` 排除 `.git/.github/build/.gradle/.cxx/site` 复制 DiAuto → `repos/xAuto`（275 个 `.kt/.java` + `cpp` + `jniLibs` + `contract` 模块）。
+2. 品牌化：`settings.gradle.kts` `rootProject.name=xAuto`；`app/build.gradle.kts` `applicationId=com.xbutler.xauto` / `versionName=0.1.0` / debug 后缀 `.debug`；`app/src/debug/res/xml/shortcuts.xml` 7 处 `targetPackage` 同步（否则 `androidComponents` 的漂移检查会让构建失败）→ 21 个语言包的 `title`/`app_name` → `xAuto`；debug manifest 的 `android:label` → `xAuto (debug)`。
 3. 图标：删 DiAuto 的 `mipmap-*/*.webp` + `mipmap-anydpi/` + `values/ic_launcher_background.xml`，换入 MA 毛玻璃 PNG + 自适应 XML（`@mipmap/ic_launcher_background` + `@mipmap/ic_launcher_foreground`）。
-4. 签名：删除 DiAuto 的 `headunit-release-key.jks`，`keytool` 生成 `miauto-release-key.jks`（alias `miauto`），更新 `key.properties`。
-5. 移植 ICCOA：`app/libs/icar-sdk.dex`（7,084,144 B，含 `MiAutoCar`）+ `app/stubs/icar-sdk-stubs.jar` + `jniLibs/arm64-v8a/{libovmsink,libusbio}.so` + `assets/ccd.data`；
+4. 签名：删除 DiAuto 的 `headunit-release-key.jks`，`keytool` 生成 `xauto-release-key.jks`（alias `xauto`），更新 `key.properties`。
+5. 移植 ICCOA：`app/libs/icar-sdk.dex`（7,084,144 B，含 `xAutoCar`）+ `app/stubs/icar-sdk-stubs.jar` + `jniLibs/arm64-v8a/{libovmsink,libusbio}.so` + `assets/ccd.data`；
    `app/build.gradle.kts` 加 `compileOnly(files("stubs/icar-sdk-stubs.jar"))` 与 **`injectIccoaDex`** 任务（`afterEvaluate` 里对 `assembleGithubDebug`/`assemblePlaystoreDebug` 挂 `finalizedBy`；纯 `java.util.zip`，追加 `classes4.dex` → `zipalign -p -f 4` → `apksigner` 重签）。
 6. 保留内部包名 `com.andrerinas.openheadunit`（避免 275 文件 + JNI/proto/AIDL 批量改名风险），只改 `applicationId`。
 
@@ -891,10 +891,10 @@ isSupportDataTransfer()       → DATA_TRANSFER
 
 | 项 | 值 |
 |---|---|
-| APK | `com.miauto.app.debug_0.1.0-debug_debug.apk`，**20,738,640 B**，SHA-256 `1c060f38463e3f6089edeaab08c13cc3c6d2824b298535f39ef3c49cd5ff727a` |
-| 包名 / 名称 | `com.miauto.app.debug` / `MiAuto (debug)` |
+| APK | `com.xbutler.xauto.debug_0.1.0-debug_debug.apk`，**20,738,640 B**，SHA-256 `1c060f38463e3f6089edeaab08c13cc3c6d2824b298535f39ef3c49cd5ff727a` |
+| 包名 / 名称 | `com.xbutler.xauto.debug` / `xAuto (debug)` |
 | 图标 | `application: icon='res/mipmap-anydpi-v26/ic_launcher.xml'`，22 个图标条目 |
-| dex | `classes.dex` + `classes2` + `classes3` + **`classes4.dex`(7,084,144 = ICCOA SDK)**；`MiAutoCar`×1、`ICCOA汽车`×0 |
+| dex | `classes.dex` + `classes2` + `classes3` + **`classes4.dex`(7,084,144 = ICCOA SDK)**；`xAutoCar`×1、`ICCOA汽车`×0 |
 | 原生库 | `lib/arm64-v8a/libovmsink.so`、`libusbio.so`（+ 基座自带 `libavcodec/avutil/swscale/libusb1.0`） |
 | 签名 | `apksigner verify` → **EXIT=0** |
 
@@ -941,7 +941,7 @@ grep -rn "IccoaManager\|UCarAdapter" app/src/main/java
 - `res/values*/diauto.xml` 的 `da_brand` = `DiAuto`、标语全是 Android Auto 语义；
 - 因换了 `applicationId` 等于全新安装，`checkSetupFlow()` 必弹 AA 设置向导（内含 "Welcome to DiAuto"）。
 
-**修复**：5 个语言包（`values` / `-ar` / `-es` / `-ru` / `-zh-rCN`）全量改写为 MiAuto + ICCOA CarWith 语义；
+**修复**：5 个语言包（`values` / `-ar` / `-es` / `-ru` / `-zh-rCN`）全量改写为 xAuto + ICCOA CarWith 语义；
 `checkSetupFlow()` 改为只申请权限、不再进 AA 向导（车机侧无需配置，那向导纯属误导）。
 
 #### 9.7.3 ★ 根因 (c)：SDK 的清单组件与权限随清单合并一起丢失
@@ -957,12 +957,12 @@ grep -rn "IccoaManager\|UCarAdapter" app/src/main/java
 | **`<uses-permission>` / `<uses-feature>`** | ❌ 丢 | 权限不足 → API 抛异常或静默失败 |
 | **传递依赖库**（Gradle 坐标，包名前缀不属于 SDK 自身） | ❌ 丢 | 运行到该路径 `NoClassDefFoundError` |
 
-从 DiAuto 基座派生后，MiAuto 的 `AndroidManifest.xml` 里**一个 `com.share.connect.*` 服务都没有**，
+从 DiAuto 基座派生后，xAuto 的 `AndroidManifest.xml` 里**一个 `com.share.connect.*` 服务都没有**，
 而 SDK 的**整个传输栈**都以独立 Service 形式运行：
 
 | Service | 作用 |
 |---|---|
-| `com.share.connect.ble.BluetoothLeService` | **BLE 广播 / 发现**（手机能看到「MiAutoCar」全靠它） |
+| `com.share.connect.ble.BluetoothLeService` | **BLE 广播 / 发现**（手机能看到「xAutoCar」全靠它） |
 | `com.share.connect.ShareLinkService` | 会话共享与链接协商 |
 | `com.share.connect.wifiap.WifiApService` | SoftAP 直连（投屏数据通道之一） |
 | `com.share.connect.wifip2p.WifiP2pService` | WiFi P2P 直连（投屏数据通道之二） |
@@ -1006,9 +1006,9 @@ SDK 用 Room 维护「信任设备(Peer)」表，而 `androidx.room` 来自 **Gr
 
 | 项 | 值 |
 |---|---|
-| APK | `app/build/outputs/apk/github/debug/com.miauto.app.debug_0.1.0-debug_debug.apk` |
+| APK | `app/build/outputs/apk/github/debug/com.xbutler.xauto.debug_0.1.0-debug_debug.apk` |
 | 大小 / SHA-256 | **20,816,877 B** / `6f6f4b6befd18d5a0d0ad0cda33f097be490995c8e9b8c39c592100fe97d0c9c` |
-| 包名 / label | `com.miauto.app.debug` / `MiAuto (debug)` |
+| 包名 / label | `com.xbutler.xauto.debug` / `xAuto (debug)` |
 | **合并清单 5 个 SDK 服务** | ✅ 全部在册（`aapt2 dump xmltree` 核对） |
 | **Room 类进 APK** | ✅ `androidx/room` **184 类**（classes / classes2），`RoomDatabase` + `MultiInstanceInvalidationService` 均已定义 |
 | **ICCOA SDK** | ✅ `classes5.dex`（7,084,144 B）：`com/ucar/vehiclesdk` **223 类** + `com/share/connect` **205 类** |
@@ -1035,7 +1035,7 @@ SDK 用 Room 维护「信任设备(Peer)」表，而 `androidx.room` 来自 **Gr
 用户实测确认 **「能正常连接了」**（§9.7 的四个根因修复生效）。随后提出两组需求：
 
 1. **配对码不再刷新**：「断开后刷新的链接码如果当时没有被连接，后面就不会继续刷新；手机关闭连接弹窗，也就不会触发连接弹窗了，无法再次连接。是否参考荣耀车联的逻辑，增加自动刷新周期，如果 30 秒没连接就重新刷一次新的链接码来触发弹窗，或者增加一个刷新配对码的按钮？」
-2. **首页文案**：`小米 CarWith · 车机端` → `MiAutoCar · 车机端`；`ICCOA CARLINK · 小米 CARWITH` → `MIAUTO CARLINK · CARWITH`；「把小米手机投屏到这块车机屏幕。」→「把手机投屏到这块车机屏幕或仪表盘/HUD。」；**去掉所有「小米」字样**；底部加一行免责声明。
+2. **首页文案**：`小米 CarWith · 车机端` → `xAutoCar · 车机端`；`ICCOA CARLINK · 小米 CARWITH` → `MIAUTO CARLINK · CARWITH`；「把小米手机投屏到这块车机屏幕。」→「把手机投屏到这块车机屏幕或仪表盘/HUD。」；**去掉所有「小米」字样**；底部加一行免责声明。
 
 #### 9.8.2 根因：只做「断开后刷新一次」是不够的
 
@@ -1047,7 +1047,7 @@ SDK 用 Room 维护「信任设备(Peer)」表，而 `androidx.room` 来自 **Gr
 
 这正是荣耀车联 / HiCar 车机端要做**周期性重播**的原因 —— 用一次「广播内容的变化」把手机的发现流程重新触发一遍。
 
-#### 9.8.3 实现（`com.miauto.app.IccoaManager`）
+#### 9.8.3 实现（`com.xbutler.xauto.IccoaManager`）
 
 | 机制 | 实现要点 |
 |---|---|
@@ -1062,7 +1062,7 @@ SDK 用 Room 维护「信任设备(Peer)」表，而 `androidx.room` 来自 **Gr
 
 - 首页状态卡的 `da_wireless` 标签、`da_tagline` 品牌行、`da_description` 正文字面量全部改写（5 语言同步：`values` / `-zh-rCN` / `-ar` / `-es` / `-ru`）。
 - 新增 `da_refresh_pin`（刷新配对码 / Refresh pairing code / …）。
-- 新增 **`da_legal`**：首页最底部固定一行小字（`legal_footer` TextView，两个布局变体都加），声明 MiAuto 与 BYD 官方、ICCOA CarLink、小米 CarWith 及其商标持有者**均无隶属 / 授权 / 合作关系**，名称与商标归各自所有者，**仅供学习与技术交流使用、禁止商用**，后果由使用者自负。
+- 新增 **`da_legal`**：首页最底部固定一行小字（`legal_footer` TextView，两个布局变体都加），声明 xAuto 与 BYD 官方、ICCOA CarLink、小米 CarWith 及其商标持有者**均无隶属 / 授权 / 合作关系**，名称与商标归各自所有者，**仅供学习与技术交流使用、禁止商用**，后果由使用者自负。
 - 「刷新配对码」按钮（`refresh_pin_button`，`OutlinedButton`）与「打开投屏」（`wifi_button`）**互为镜像**：未连接时显示刷新，已连接时只显示打开投屏。
 - ⚠️ `layout-port/fragment_home.xml` 必须与 `layout/fragment_home.xml` 同步 —— `findViewById` 对缺失 id 返回 null，竖屏会直接崩。
 
@@ -1076,15 +1076,15 @@ Surface 稍后就绪的常见情形由 `setSurface()` 兜底触发。
 #### 9.8.6 产物校验
 
 ```
-com.miauto.app.debug_0.1.0-debug_debug.apk
+com.xbutler.xauto.debug_0.1.0-debug_debug.apk
   大小    20,825,069 B
   SHA-256 917fe3eaa0c46a5f5890b7cf36d295a5f80288673d4fc8103b6164a17d785163
-  包名    com.miauto.app.debug    label  MiAuto (debug)
+  包名    com.xbutler.xauto.debug    label  xAuto (debug)
   dex     classes.dex(2,197,404) + classes2(9,648,168) + classes3(9,215,400) + classes4(493,492)
-          + classes5.dex(7,084,144 = ICCOA SDK，含 MiAutoCar)
+          + classes5.dex(7,084,144 = ICCOA SDK，含 xAutoCar)
   附加    libovmsink.so / libusbio.so / assets/ccd.data
   清单    5 个 SDK 服务齐全（4× com.share.connect.* + androidx.room.MultiInstanceInvalidationService）
-  文案    aapt2 dump strings 命中：MiAutoCar · 车机端 / MIAUTO CARLINK · CARWITH / MIAUTOCAR · HEAD UNIT
+  文案    aapt2 dump strings 命中：xAutoCar · 车机端 / MIAUTO CARLINK · CARWITH / MIAUTOCAR · HEAD UNIT
           / 刷新配对码 / 「仪表盘 / HUD」五语言版本 / da_legal 五语言版本；旧文案（XIAOMI CARWITH、
           小米 CARWITH、ICCOA CARLINK）**零命中**
   签名    apksigner verify → EXIT=0
@@ -1094,17 +1094,17 @@ com.miauto.app.debug_0.1.0-debug_debug.apk
 
 ## 10. 许可证与合规
 
-| 组件 | 许可证 | 对 MiAuto 的影响 |
+| 组件 | 许可证 | 对 xAuto 的影响 |
 |---|---|---|
-| **DiAuto Pro** | **AGPL-3.0**（LICENSE 661 行，另含 `COPYRIGHT_MICHAEL_REID_GPLv3AFFERO.txt`） | MiAuto **必须 AGPL-3.0 开源**，含网络服务条款 |
+| **DiAuto Pro** | **AGPL-3.0**（LICENSE 661 行，另含 `COPYRIGHT_MICHAEL_REID_GPLv3AFFERO.txt`） | xAuto **必须 AGPL-3.0 开源**，含网络服务条款 |
 | **ICCOA CarLink SDK**（来自样本 APK） | ⚠️ **无 LICENSE**，来源授权范围不明 | **自用无碍；公开分发需澄清**，见 R7 / R8 |
 | **`libovmsink.so` / `libusbio.so`** | ⚠️ **不明**（二进制） | 同上 |
 | **`assets/ccd.data`** | ⚠️ **带溯源水印的测试证书** | **必须换成自造证书**（R6），不要原样分发 |
 | **（备选）CarLife SDK（apollo-DuerOS）** | Apache-2.0 | 兼容 AGPL（Apache-2.0 → AGPL-3.0 单向兼容） |
-| **小米 CarWith** | 专有 | **不接触** —— MiAuto 不逆向 CarWith、不打包、不模拟小米服务 |
+| **小米 CarWith** | 专有 | **不接触** —— xAuto 不逆向 CarWith、不打包、不模拟小米服务 |
 
 **推荐做法**：
-- MiAuto 采用 **AGPL-3.0**，与 DiAuto Pro 一致
+- xAuto 采用 **AGPL-3.0**，与 DiAuto Pro 一致
 - README 明确写三方来源：`DiAuto Pro (AGPL-3.0)` + `ICCOA CarLink 车机端 SDK（来源：车机端 APK 逆向 / 自研）`
 - 保留 DiAuto Pro 的 fork 署名（AGPL 要求）
 - **不声称"支持小米"或"官方 ICCOA"**，而是「实现了 ICCOA CarLink 车机端协议；小米 CarWith 可通过其 ICCOA 通道连接」

@@ -57,7 +57,7 @@
 
 # Keep the glue that talks to the SDK. The SDK invokes it by name across the AIDL
 # boundary and through AndroidManifest component names, both of which R8 cannot trace.
--keep class com.miauto.app.** { *; }
+-keep class com.xbutler.xauto.** { *; }
 -keep class com.andrerinas.openheadunit.connection.IcocaBridge { *; }
 -keep class com.andrerinas.openheadunit.icoca.** { *; }
 

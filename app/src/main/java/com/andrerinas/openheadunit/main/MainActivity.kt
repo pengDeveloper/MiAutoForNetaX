@@ -167,7 +167,7 @@ class MainActivity : BaseActivity() {
         val serviceIntent = Intent(this, AapService::class.java)
         ContextCompat.startForegroundService(this, serviceIntent)
 
-        // MiAuto: bring up the ICCOA CarLink (Xiaomi CarWith) link. Gated on the Bluetooth
+        // xAuto: bring up the ICCOA CarLink (Xiaomi CarWith) link. Gated on the Bluetooth
         // permissions — an SDK started without them advertises nothing at all, with no error to
         // look at — and re-attempted from onResume once the dialog is answered.
         ensureIcocaStarted()
@@ -974,7 +974,7 @@ class MainActivity : BaseActivity() {
     }
 
     fun checkSetupFlow() {
-        // MiAuto deliberately does not run DiAuto's Android Auto setup wizard. There is nothing to
+        // xAuto deliberately does not run DiAuto's Android Auto setup wizard. There is nothing to
         // configure on the car side: the ICCOA link advertises itself over BLE and the phone does
         // all the work, so a wizard walking the user through hotspots, USB ports and "Connect
         // phone" would be actively misleading. Permissions are the only prerequisite, so this is

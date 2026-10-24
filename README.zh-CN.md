@@ -1,8 +1,8 @@
-# MiAuto
+# xAuto
 
 **小米 CarWith / OPPO Car+ 车联 / vivo Jovi InCar 等 ICCOA CarLink 手机，直接上车机大屏。无线连接。**
 
-**MiAuto 装在车机上**，把自己广播成一台支持 ICCOA CarLink 的车机，与已经开着 CarWith、
+**xAuto 装在车机上**，把自己广播成一台支持 ICCOA CarLink 的车机，与已经开着 CarWith、
 Car+ 车联或 Jovi InCar 的手机配对 —— 小米 / OPPO / vivo 等皆可。手机继续用它自己的地图、
 音乐与电话应用：手机侧不装任何东西，车机侧也不需要配套账号、转接盒、数据线、root 或改固件。
 
@@ -13,8 +13,8 @@ Car+ 车联或 Jovi InCar 的手机配对 —— 小米 / OPPO / vivo 等皆可�
 > —— 小米 CarWith、OPPO Car+ 车联、vivo Jovi InCar 走的都是这一套。
 > 详见下方[致谢与许可](#致谢与许可)。
 
-[下载与安装](https://piggybackbayonet.github.io/MiAuto/zh-Hans/) ·
-[最新版本](https://github.com/PiggyBackBayonet/MiAuto/releases/latest)
+[下载与安装](https://piggybackbayonet.github.io/xAuto/zh-Hans/) ·
+[最新版本](https://github.com/PiggyBackBayonet/xAuto/releases/latest)
 
 [English](README.md) · [简体中文](README.zh-CN.md)
 
@@ -39,7 +39,7 @@ Car+ 车联或 Jovi InCar 的手机配对 —— 小米 / OPPO / vivo 等皆可�
   且无需重启应用。
 - **完整继承基座的设置体系** —— 连接、显示、视频、输入、音频、备份、重置与诊断。
 - **继承的仪表盘与 HUD 投屏链路**，供开放了这些区域的车机使用，默认关闭。
-- 独立包名（`com.miauto.app`）与独立发布签名密钥，可与同车机上的其他接收端应用并存。
+- 独立包名（`com.xbutler.xauto`）与独立发布签名密钥，可与同车机上的其他接收端应用并存。
 
 ## 特色功能
 
@@ -60,7 +60,7 @@ vivo Jovi InCar 都连它；手机在附近设备列表里发现它，在手机�
 真正值得工程化应对的失败模式，是用户在手机上把配对弹窗关掉了：车机仍在广播，
 但手机不会自己再把弹窗弹出来，而此前的行为只能靠重启应用解决。
 
-MiAuto 在未连接时每 30 秒重新广播一次：
+xAuto 在未连接时每 30 秒重新广播一次：
 
 | 机制 | 行为 |
 | --- | --- |
@@ -73,13 +73,13 @@ MiAuto 在未连接时每 30 秒重新广播一次：
 ### 3. 仪表盘与 HUD 链路
 
 基座面向比亚迪已向第三方应用开放的仪表区域，以及挡风玻璃导航输出（箭头、距离、路名）。
-只要车机开放了这些区域，MiAuto 就保留了这两条链路。
+只要车机开放了这些区域，xAuto 就保留了这两条链路。
 
 仪表投屏是**实验性**功能且**默认关闭**。若车机未向应用开放仪表区域，设置项会报告「功能不可用」
 而不是报错。仪表投屏按车机按需开启；其下方的投屏时机控件**始终显示** ——
 一个会隐藏自己的控件，与一个从未实现的功能无法区分。
 
-**这两条链路是继承来的，尚未与 MiAuto 的协议栈一起验证。**
+**这两条链路是继承来的，尚未与 xAuto 的协议栈一起验证。**
 
 ## 功能一览
 
@@ -145,8 +145,8 @@ keyPassword=YOUR_PRIVATE_PASSWORD
 
 | 构建类型 | applicationId | 应用名 |
 | --- | --- | --- |
-| Release | `com.miauto.app` | MiAuto |
-| Debug（可共存） | `com.miauto.app.debug` | MiAuto |
+| Release | `com.xbutler.xauto` | xAuto |
+| Debug（可共存） | `com.xbutler.xauto.debug` | xAuto |
 
 debug 包名让测试版可以与正式版装在同一台车机上。本仓库的 CI 只覆盖 `github` flavor。
 
@@ -164,12 +164,12 @@ GitHub Actions 只把 `site/` 部署到 GitHub Pages。
 
 ## 致谢与许可
 
-MiAuto 以 [DiAuto Pro](https://github.com/zutaozhong-hash/DiAuto-Pro) 为基座，
+xAuto 以 [DiAuto Pro](https://github.com/zutaozhong-hash/DiAuto-Pro) 为基座，
 后者是 [DiAuto](https://github.com/shihabal3amri/DiAuto) 的独立分支，
 再往前是 [Open Headunit](https://github.com/andreknieriem/open-headunit)，
 基于其贡献者与 [Michael Reid](https://github.com/mikereidis/headunit) 的工作。
 
-MiAuto 采用 **AGPL-3.0** 许可。见 [LICENSE](LICENSE) 与
+xAuto 采用 **AGPL-3.0** 许可。见 [LICENSE](LICENSE) 与
 `COPYRIGHT_MICHAEL_REID_GPLv3AFFERO.txt` 中的原始版权声明。本仓库包含已发布应用的源码。
 
 本项目是独立的社区项目，与小米、OPPO、vivo、ICCOA、Google、比亚迪均**无隶属、授权或合作关系**。

@@ -83,8 +83,8 @@ android {
     }
 
     defaultConfig {
-        // MiAuto installs as its own package so it can sit alongside DiAuto / DiPlay.
-        applicationId = "com.miauto.app"
+        // xAuto installs as its own package so it can sit alongside DiAuto / DiPlay.
+        applicationId = "com.xbutler.xauto"
         minSdk = 16
         targetSdk = 36
         versionCode = 2
@@ -98,9 +98,9 @@ android {
         // This is scanned at build time from values-XX directories
         buildConfigField("String", "AVAILABLE_LOCALES", "\"${availableLocales.joinToString(",")}\"")
 
-        // MiAuto replaces the phone protocol with ICCOA CarLink (Xiaomi CarWith), so the Android
+        // xAuto replaces the phone protocol with ICCOA CarLink (Xiaomi CarWith), so the Android
         // Auto half of the codebase is dead weight at runtime. This flag lets the shared code —
-        // chiefly AapService, which MiAuto keeps only as the foreground keep-alive — skip the
+        // chiefly AapService, which xAuto keeps only as the foreground keep-alive — skip the
         // AA-only side effects: the car-mode UI switch, the media-key hijack, and the one that
         // actually breaks the link, grabbing the WiFi Direct group and local hotspot that the
         // ICCOA SDK needs for its own data channel.
@@ -453,7 +453,7 @@ val injectIccoaDex = tasks.register("injectIccoaDex") {
                         "--key-pass", "pass:" + releaseKeyProps.getProperty("keyPassword")
                     )
                 } else {
-                    logger.warn(">>> 未找到 key.properties/miauto-release-key.jks，${apk.name} 未重签（安装可能失败）")
+                    logger.warn(">>> 未找到 key.properties/xauto-release-key.jks，${apk.name} 未重签（安装可能失败）")
                     null
                 }
             } else if (iccoaDebugKeystore.exists()) {
@@ -477,7 +477,7 @@ val injectIccoaDex = tasks.register("injectIccoaDex") {
             }
             tmpInjected.delete()
             tmpAligned.delete()
-            logger.lifecycle(">>> MiAuto APK 已注入 ICCOA SDK 并重签：${apk.absolutePath}")
+            logger.lifecycle(">>> xAuto APK 已注入 ICCOA SDK 并重签：${apk.absolutePath}")
         }
     }
 }

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MiAuto</string>
+    <string name="app_name">xAuto</string>
     <string name="menu">القائمة</string>
     <string name="settings">الإعدادات</string>
 
@@ -12,7 +12,7 @@
     <string name="video">Android Auto</string>
     <string name="self_mode">الوضع الذاتي</string>
     <string name="to_android_auto">إلى Android Auto</string>
-    <string name="title">MiAuto</string>
+    <string name="title">xAuto</string>
     <string name="remove">إزالة</string>
     <string name="usb">USB</string>
     <string name="wifi">واي فاي</string>
@@ -258,9 +258,9 @@
     <!-- Info Settings -->
     <string name="category_info">المعلومات</string>
     <string name="about">حول &amp; الدعم</string>
-    <string name="about_description">الحصول على مزيد من المعلومات حول MiAuto</string>
+    <string name="about_description">الحصول على مزيد من المعلومات حول xAuto</string>
     <string name="version">الإصدار</string>
-    <string name="about_title">حول MiAuto</string>
+    <string name="about_title">حول xAuto</string>
     <string name="copyright">© 2025-%d André Rinas</string>
 
     <!-- Safety Disclaimer -->
@@ -764,7 +764,7 @@
     <string name="support_rules_connection_title">اذكر طريقة الاتصال</string>
     <string name="support_rules_connection_desc">كابل USB، أو محول USB لاسلكي، أو WiFi Direct، أو WiFi (خادم وحدة الرأس)، أو Self Mode. إن كان الاتصال لاسلكيًا، أضف طراز المحول أو الدونغل.</string>
     <string name="support_rules_appversion_title">أرفق إصدار التطبيق</string>
-    <string name="support_rules_appversion_desc">إصدار MiAuto، المعروض في شاشة حول.</string>
+    <string name="support_rules_appversion_desc">إصدار xAuto، المعروض في شاشة حول.</string>
     <string name="support_rules_logs_title">أرفق السجلات فور حدوث المشكلة</string>
     <string name="support_rules_logs_desc">انتقل إلى الإعدادات وافتح تبويب متقدم، ثم فعّل وضع التصحيح في قسم تصحيح الأخطاء، وأعد إنتاج المشكلة، ثم اضغط تصدير السجلات مباشرة بعدها حتى يغطي السجل لحظة الخلل لا مجرد بداية التشغيل. أرفق الملف بمشكلتك.</string>
     <string name="support_rules_search_title">لا تكرار</string>
@@ -860,7 +860,7 @@
     <string name="playback_focus_mode_always_hint">يوقف الأصوات الأخرى دائماً أثناء تشغيل Android Auto. إذا توقفت الموسيقى بعد ثانية أو ثانيتين عند تفعيل Bluetooth، عُد إلى الوضع التلقائي.</string>
     <string name="playback_focus_mode_never_hint">لا يغير تركيز صوت النظام أبداً. قد تستمر الأصوات الأخرى فوق صوت Android Auto.</string>
     <string name="playback_focus_mode_static_hint">عند تفعيل تركيز الصوت الثابت، يسري هذا منذ اتصال الهاتف وطوال الجلسة، وليس أثناء تشغيل الصوت فقط.</string>
-    <string name="github_issues_url">https://github.com/PiggyBackBayonet/MiAuto/issues</string>
+    <string name="github_issues_url">https://github.com/PiggyBackBayonet/xAuto/issues</string>
     <string name="support_rules_english_title">All posts in English</string>
     <string name="boot_loop_paused_title">تم إيقاف بدء الاتصال اللاسلكي مؤقتاً</string>
     <string name="boot_loop_paused_generic">أُعيد تشغيل هذا الجهاز ثلاث مرات متتالية بعد بدء الاتصال اللاسلكي في Open Headunit، لذلك لم يُفعّل هذه المرة. ما زال USB يعمل. افتح التطبيق لإعادة تفعيله.</string>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="da_brand">MiAuto</string>
+    <string name="da_brand">xAuto</string>
     <string name="da_tagline">MIAUTOCAR · В АВТОМОБИЛЕ</string>
     <string name="da_headline">Ваш телефон на экране автомобиля.</string>
     <string name="da_description">Выведите экран телефона на этот дисплей или на приборную панель / HUD.\nОткройте Xiaomi CarWith, OPPO Car+ или vivo Jovi InCar на телефоне и выберите этот автомобиль.</string>
@@ -32,11 +32,11 @@
     <string name="da_display_hint">Размер изображения, частота кадров и настройки звука.</string>
     <string name="da_permissions">Разрешения</string>
     <string name="da_permissions_hint">Проверьте доступ к Bluetooth, микрофону и местоположению.</string>
-    <string name="da_about">О MiAuto</string>
+    <string name="da_about">О xAuto</string>
     <string name="da_about_hint">Версия, лицензии и благодарности авторам открытого ПО.</string>
     <string name="da_saved_hint">Изменения настроек видео вступят в силу при следующем подключении.</string>
     <string name="da_settings_subtitle">Настройте экран, звук и подключение.</string>
     <string name="da_bluetooth_music">Музыка через Bluetooth автомобиля</string>
-    <string name="da_bluetooth_music_hint">Оставьте музыку в Bluetooth-проигрывателе автомобиля. MiAuto не меняет его аудиофокус; звук навигации и ассистента остаётся доступен. После изменения переподключитесь.</string>
-    <string name="da_legal">MiAuto — независимый сторонний проект с открытым исходным кодом, построенный на DiAuto Pro и Open Headunit. Он не связан с компанией BYD, а также с ICCOA, Google, Xiaomi, OPPO, vivo или владельцами их товарных знаков. ICCOA CarLink — стандарт подключения в салоне автомобиля, совместно учреждённый Xiaomi, OPPO и vivo; Xiaomi CarWith, OPPO Car+ и vivo Jovi InCar — три его клиента на телефоне, а MiAuto — независимый приёмник на стороне автомобиля. Все названия и товарные знаки принадлежат их владельцам. Проект предоставляется только для обучения и технического обмена. Не используйте его в коммерческих целях; ответственность за последствия использования лежит на пользователе.</string>
+    <string name="da_bluetooth_music_hint">Оставьте музыку в Bluetooth-проигрывателе автомобиля. xAuto не меняет его аудиофокус; звук навигации и ассистента остаётся доступен. После изменения переподключитесь.</string>
+    <string name="da_legal">xAuto — независимый сторонний проект с открытым исходным кодом, построенный на DiAuto Pro и Open Headunit. Он не связан с компанией BYD, а также с ICCOA, Google, Xiaomi, OPPO, vivo или владельцами их товарных знаков. ICCOA CarLink — стандарт подключения в салоне автомобиля, совместно учреждённый Xiaomi, OPPO и vivo; Xiaomi CarWith, OPPO Car+ и vivo Jovi InCar — три его клиента на телефоне, а xAuto — независимый приёмник на стороне автомобиля. Все названия и товарные знаки принадлежат их владельцам. Проект предоставляется только для обучения и технического обмена. Не используйте его в коммерческих целях; ответственность за последствия использования лежит на пользователе.</string>
 </resources>
