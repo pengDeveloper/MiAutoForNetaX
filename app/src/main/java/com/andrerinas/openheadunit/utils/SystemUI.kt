@@ -53,7 +53,9 @@ object SystemUI {
         // Legacy Flags (Layout stability & Fallback for hiding bars)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             @Suppress("DEPRECATION")
-            var flags = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+            // X管家 适配：NONE 模式（默认）不要 LAYOUT_STABLE —— 它会让内容
+            // 顶到系统栏下面，车机上就变成"铺满整屏"盖住左侧气候栏。
+            var flags = if (mode == Settings.FullscreenMode.NONE) 0 else View.SYSTEM_UI_FLAG_LAYOUT_STABLE
             
             when (mode) {
                 Settings.FullscreenMode.IMMERSIVE, Settings.FullscreenMode.IMMERSIVE_WITH_NOTCH -> {

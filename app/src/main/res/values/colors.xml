@@ -33,4 +33,13 @@
     <!-- Segmented Button Colors -->
     <color name="segmented_button_stroke">#808080</color>
 
+
+    <!-- X管家 配色（浅色） -->
+    <color name="xb_bg_top">#FFDBE6FD</color>
+    <color name="xb_bg_bottom">#FFBDD6FF</color>
+    <color name="xb_card">#FFEAF1FF</color>
+    <color name="xb_text_primary">#FF1F2A44</color>
+    <color name="xb_text_secondary">#FF6B7893</color>
+    <color name="xb_accent">#FF2C6FE0</color>
+    <color name="xb_ok">#FF2F9E62</color>
 </resources>

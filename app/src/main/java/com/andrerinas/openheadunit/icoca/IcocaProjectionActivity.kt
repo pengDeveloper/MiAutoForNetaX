@@ -37,7 +37,6 @@ class IcocaProjectionActivity : AppCompatActivity() {
         // A projection session can run for a long time; never let the panel sleep mid-drive.
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         setContentView(R.layout.activity_icoca_projection)
-        hideSystemUi()
 
         val bridge = App.provide(this).icocaBridge
         findViewById<SurfaceView>(R.id.icoca_surface).holder.addCallback(
@@ -87,23 +86,6 @@ class IcocaProjectionActivity : AppCompatActivity() {
     override fun onStop() {
         isForeground = false
         super.onStop()
-    }
-
-    override fun onWindowFocusChanged(hasFocus: Boolean) {
-        super.onWindowFocusChanged(hasFocus)
-        if (hasFocus) hideSystemUi()
-    }
-
-    @Suppress("DEPRECATION")
-    private fun hideSystemUi() {
-        window.decorView.systemUiVisibility = (
-            View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                or View.SYSTEM_UI_FLAG_FULLSCREEN
-                or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-            )
     }
 
     companion object {

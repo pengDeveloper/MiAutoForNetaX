@@ -7,4 +7,13 @@
     <color name="text_primary">#f7f7f7</color>
     <color name="text_shadow">#00000000</color>
     <color name="segmented_button_stroke">#CCCCCC</color>
+
+    <!-- X管家 配色（深色） -->
+    <color name="xb_bg_top">#FF454072</color>
+    <color name="xb_bg_bottom">#FF282A40</color>
+    <color name="xb_card">#FF3A3A5A</color>
+    <color name="xb_text_primary">#FFF2F4FF</color>
+    <color name="xb_text_secondary">#FFB9BEDA</color>
+    <color name="xb_accent">#FF6FA0FF</color>
+    <color name="xb_ok">#FF4CC38A</color>
 </resources>

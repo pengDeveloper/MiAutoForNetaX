@@ -17,7 +17,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import android.widget.VideoView
 import androidx.activity.OnBackPressedCallback
-import androidx.activity.enableEdgeToEdge
+import androidx.core.view.WindowCompat
 import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -146,7 +146,10 @@ class MainActivity : BaseActivity() {
         } else if (mainSettings.useGradientBackground) {
             theme.applyStyle(R.style.ThemeOverlay_GradientBackground, true)
         }
-        enableEdgeToEdge()
+        // X管家 适配（2026-10-24）：不要 edge-to-edge —— 车机左侧 588px 是
+        // 系统气候栏（ITYPE_CLIMATE_BAR inset），edge-to-edge 会让内容铺满整屏
+        // 盖住它。这里让 decor 按系统默认布局，内容自然落在右侧。
+        WindowCompat.setDecorFitsSystemWindows(window, true)
         setContentView(R.layout.activity_main)
 
         val appSettings = Settings(this)
@@ -919,8 +922,10 @@ class MainActivity : BaseActivity() {
 
     private fun setFullscreen() {
         val root = findViewById<View>(R.id.root)
-        val appSettings = Settings(this)
-        SystemUI.apply(window, root, appSettings.fullscreenMode)
+        // X管家 适配（2026-10-24）：车机左侧 588px 是系统气候栏。
+        // 这里不再跟随用户设置里的全屏模式，固定走 NONE —— 由系统按 insets
+        // 把窗口布局到右侧应用区域，效果与 X管家一致（真正的"分屏"）。
+        SystemUI.apply(window, root, Settings.FullscreenMode.NONE)
     }
 
     override fun onResume() {

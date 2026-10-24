@@ -417,7 +417,9 @@ class Settings(private val context: Context) {
                 prefs.edit().putInt("fullscreen-mode", migrated.value).apply()
                 return migrated
             }
-            val value = prefs.getInt("fullscreen-mode", FullscreenMode.IMMERSIVE.value)
+            // X管家 适配：车机左侧有系统气候栏（588px inset），默认不能用 IMMERSIVE
+        // 全屏，否则内容铺满整屏把它盖住。默认改成 NONE，交给系统做 inset 布局。
+        val value = prefs.getInt("fullscreen-mode", FullscreenMode.NONE.value)
             return FullscreenMode.fromInt(value) ?: FullscreenMode.IMMERSIVE
         }
         set(value) { prefs.edit().putInt("fullscreen-mode", value.value).apply() }
