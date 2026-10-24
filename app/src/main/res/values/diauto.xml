@@ -7,7 +7,7 @@
     <color name="da_text">#F1F5FC</color>
     <color name="da_muted">#A8B6CA</color>
     <string name="da_brand">xAuto</string>
-    <string name="da_tagline">MIAUTOCAR · HEAD UNIT</string>
+    <string name="da_tagline">XAUTOCAR · HEAD UNIT</string>
     <string name="da_headline">Your phone, on your car screen.</string>
     <string name="da_description">Mirror your phone to this screen or to the cluster / HUD.\nOpen Xiaomi CarWith, OPPO Car+ or vivo Jovi InCar on your phone and pick this car to start.</string>
     <string name="da_connect">Start pairing</string>
@@ -19,7 +19,7 @@
     <string name="da_pin_label">PAIRING CODE</string>
     <string name="da_refresh_pin">Refresh pairing code</string>
     <string name="da_hint">Keep Bluetooth and Wi-Fi on. Open Xiaomi CarWith, OPPO Car+ or vivo Jovi InCar on your phone, tap this car, then check the pairing code shown here.</string>
-    <string name="da_wireless">MIAUTO CARLINK · CARWITH / CAR+ / JOVI</string>
+    <string name="da_wireless">XAUTO CARLINK · CARWITH / CAR+ / JOVI</string>
     <string name="da_usb">Pair via Bluetooth</string>
     <string name="da_usb_hint">Pair this car in your phone’s Bluetooth settings first.</string>
     <string name="da_settings">Settings</string>

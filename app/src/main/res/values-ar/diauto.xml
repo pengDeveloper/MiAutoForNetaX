@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="da_brand">xAuto</string>
-    <string name="da_tagline">MIAUTOCAR · في سيارتك</string>
+    <string name="da_tagline">XAUTOCAR · في سيارتك</string>
     <string name="da_headline">هاتفك على شاشة سيارتك.</string>
     <string name="da_description">اعرض شاشة هاتفك على هذه الشاشة أو على العدّاد / HUD.\nافتح Xiaomi CarWith أو OPPO Car+ أو vivo Jovi InCar على هاتفك واختر هذه السيارة للبدء.</string>
     <string name="da_connect">بدء الاقتران</string>
@@ -13,7 +13,7 @@
     <string name="da_pin_label">رمز الاقتران</string>
     <string name="da_refresh_pin">تحديث رمز الاقتران</string>
     <string name="da_hint">أبقِ Bluetooth وWi-Fi مفعّلين. افتح Xiaomi CarWith أو OPPO Car+ أو vivo Jovi InCar على هاتفك، واختر هذه السيارة، ثم تحقق من رمز الاقتران الظاهر هنا.</string>
-    <string name="da_wireless">MIAUTO CARLINK · CARWITH / CAR+ / JOVI</string>
+    <string name="da_wireless">XAUTO CARLINK · CARWITH / CAR+ / JOVI</string>
     <string name="da_usb">الاقتران عبر Bluetooth</string>
     <string name="da_usb_hint">اقرن هذه السيارة أولاً من إعدادات Bluetooth في هاتفك.</string>
     <string name="da_settings">الإعدادات</string>

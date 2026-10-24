@@ -42,4 +42,5 @@
     <color name="xb_text_secondary">#FF6B7893</color>
     <color name="xb_accent">#FF2C6FE0</color>
     <color name="xb_ok">#FF2F9E62</color>
+    <color name="icon_bg">#FF0C0C0C</color>
 </resources>
