@@ -47,6 +47,8 @@ class App : Application() {
 
         // Root support
         component.suExecutor.register()
+        // 2026-10-25：把车机当前热点配置同步给 ICCOA 兼容模块（仅 root；无 root 只打日志）
+        runCatching { com.andrerinas.openheadunit.connection.IccoaHotspotConfig.sync(this) }
 
         if (isUserUnlocked()) {
             val settings = Settings(this) // Create a Settings instance
