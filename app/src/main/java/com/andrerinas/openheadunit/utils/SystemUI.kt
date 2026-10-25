@@ -1,5 +1,6 @@
 package com.andrerinas.openheadunit.utils
 
+import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Build
 import android.view.View
@@ -7,9 +8,11 @@ import android.view.Window
 import android.view.WindowInsets
 import android.view.WindowInsetsController
 import android.view.WindowManager
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import com.andrerinas.openheadunit.R
 import com.andrerinas.openheadunit.utils.AppLog
 
 object SystemUI {
@@ -91,24 +94,37 @@ object SystemUI {
         }
 
         // Visual Polish: Background colors and Light/Dark icon appearance
-        if (mode != Settings.FullscreenMode.IMMERSIVE && mode != Settings.FullscreenMode.IMMERSIVE_WITH_NOTCH) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-                if (Build.VERSION.SDK_INT < 35) {
-                    window.statusBarColor = Color.BLACK
-                    if (mode == Settings.FullscreenMode.NONE || mode == Settings.FullscreenMode.STATUS_ONLY) {
-                        window.navigationBarColor = Color.BLACK
-                    }
-                }
-            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-                if (mode == Settings.FullscreenMode.NONE || mode == Settings.FullscreenMode.STATUS_ONLY) {
-                    window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
+        // xAuto（用户任务 2 + 夜间模式）：状态栏/导航栏不再写死 Color.BLACK，改用 X管家 token ——
+        // 状态栏 = 页面顶部 xb_bg_top，导航栏 = 页面底部 xb_bg_bottom；token 会随 uiMode 换值
+        // （日间浅蓝 / 夜间深靛蓝），图标的明暗由下方 isNightMode 动态决定。
+        // Android 11 车机走 < 35 分支；API 35+ 系统强制 edge-to-edge，保留原逻辑（不写 bar 颜色）。
+        val immersive = mode == Settings.FullscreenMode.IMMERSIVE ||
+                mode == Settings.FullscreenMode.IMMERSIVE_WITH_NOTCH
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            if (Build.VERSION.SDK_INT < 35) {
+                if (immersive) {
+                    // 系统栏本来隐藏：透明即可，不画黑条；下滑临时唤出时叠在页面底色上，仍保持沉浸。
+                    window.statusBarColor = Color.TRANSPARENT
+                    window.navigationBarColor = Color.TRANSPARENT
+                } else {
+                    // NONE / STATUS_ONLY：与页面顶部/底部同色（日间浅蓝、夜间深靛蓝），衔接成一片。
+                    window.statusBarColor = ContextCompat.getColor(root.context, R.color.xb_bg_top)
+                    window.navigationBarColor = ContextCompat.getColor(root.context, R.color.xb_bg_bottom)
                 }
             }
-            controllerCompat.isAppearanceLightStatusBars = false
-            controllerCompat.isAppearanceLightNavigationBars = false
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+            if (mode == Settings.FullscreenMode.NONE || mode == Settings.FullscreenMode.STATUS_ONLY) {
+                window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
+            }
         }
+        // 浅色底 → 深色图标；夜间深色底 → 浅色图标。按当前 uiMode 动态判断，
+        // 这样 `cmd uimode night yes/no` 切夜景时图标颜色与背景一致。
+        val isNightMode = (root.context.resources.configuration.uiMode and
+                Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
+        controllerCompat.isAppearanceLightStatusBars = !isNightMode
+        controllerCompat.isAppearanceLightNavigationBars = !isNightMode
 
         val settings = Settings(root.context)
 

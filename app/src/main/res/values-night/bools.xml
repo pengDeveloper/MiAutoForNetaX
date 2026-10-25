@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- xAuto 夜间模式：深色模式下状态栏/导航栏是深靛蓝底，图标保持浅色（status_bar_light=false）。 -->
+<resources>
+    <bool name="status_bar_light">false</bool>
+</resources>

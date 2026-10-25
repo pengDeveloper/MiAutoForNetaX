@@ -3,6 +3,7 @@ package com.andrerinas.openheadunit.aap
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Build
@@ -1292,6 +1293,16 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
                 it.suspend()
             } catch (_: Exception) {}
         }
+    }
+
+    /**
+     * xAuto 夜间模式（用户追加需求）：投屏页在 Manifest 里也声明了 configChanges 含 uiMode，
+     * 系统切深浅色时不会重建 Activity。这里不重建（避免打断视频解码/投屏），只重新执行
+     * SystemUI.apply()，让状态栏/导航栏颜色与图标明暗跟随新的日夜配置。
+     */
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        setFullscreen()
     }
 
     private fun setFullscreen() {

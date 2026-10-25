@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- xAuto 夜间模式：按下/聚焦/默认状态取 X管家 token，日间浅蓝卡、夜间深靛蓝卡自动切换。 -->
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_pressed="true" android:drawable="@color/material_grey_500"/> <!-- pressed -->
-    <item android:state_focused="true" android:drawable="@color/material_grey_700"/> <!-- focused -->
-    <item android:drawable="@color/material_grey_900"/> <!-- default -->
+    <item android:state_pressed="true" android:drawable="@color/xb_bg_bottom"/> <!-- pressed -->
+    <item android:state_focused="true" android:drawable="@color/xb_bg_bottom"/> <!-- focused -->
+    <item android:drawable="@color/xb_card"/> <!-- default -->
 </selector>

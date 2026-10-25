@@ -16,7 +16,7 @@
         android:paddingHorizontal="12dp"
         android:paddingVertical="4dp"
         android:background="@drawable/bg_pill_translucent"
-        android:textColor="@color/text_primary"
+        android:textColor="@color/da_background"
         android:textSize="12sp"
         android:textStyle="bold"
         android:visibility="gone"
@@ -131,7 +131,7 @@
             android:clickable="true"
             android:focusable="true"
             android:text="@string/cancel"
-            android:textColor="@android:color/white"
+            android:textColor="@color/da_background"
             android:textSize="14sp"
             android:textStyle="bold" />
 
@@ -162,7 +162,7 @@
             android:layout_width="18dp"
             android:layout_height="18dp"
             android:indeterminate="true"
-            android:indeterminateTint="@android:color/white" />
+            android:indeterminateTint="@color/da_background" />
 
         <TextView
             android:id="@+id/auto_connect_pill_text"
@@ -170,7 +170,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:text="@string/android_auto_starting"
-            android:textColor="@color/text_primary"
+            android:textColor="@color/da_background"
             android:textSize="13sp"
             android:textStyle="bold" />
 
@@ -195,14 +195,14 @@
             <ImageView
                 android:layout_width="160dp"
                 android:layout_height="160dp"
-                android:src="@drawable/ic_ma_logo" />
+                android:src="@mipmap/ic_launcher" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="@string/da_brand"
-                android:textColor="@color/splash_text_white"
+                android:textColor="@color/da_text"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 

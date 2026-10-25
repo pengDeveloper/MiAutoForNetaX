@@ -1,5 +1,6 @@
-<resources>
+﻿<resources>
 
+    <!-- xAuto 澶滈棿妯″紡锛堢敤鎴疯拷鍔犻渶姹傦級锛氱埗涓婚鎭㈠ DayNight锛岃窡闅忚溅鏈虹郴缁熸繁娴呰壊锛?         鏃ラ棿鐢?values/colors.xml 娴呰摑鐩橈紝澶滈棿鑷姩鍒?values-night/colors.xml 娣辫壊鐩樸€?-->
     <style name="AppTheme" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowFullscreen">false</item>
@@ -7,6 +8,12 @@
         <item name="android:windowBackground">@drawable/bg_xb</item>
         <item name="android:windowTranslucentNavigation">false</item>
         <item name="android:windowTranslucentStatus">false</item>
+        <!-- xAuto锛堢敤鎴蜂换鍔?2 + 澶滈棿妯″紡锛夛細鐘舵€佹爮/瀵艰埅鏍忓彇 xb token 鈥斺€?鏃ラ棿娴呰摑銆佸闂存繁闈涜摑锛?             涓庨〉闈㈤《閮?搴曢儴琛旀帴锛涘浘鏍囨槑鏆楃敤 @bool/status_bar_light锛堟棩闂?true=娣卞浘鏍囷紝
+             values-night 閲屼负 false=娴呭浘鏍囷級銆?             杩愯鏃?SystemUI.apply() 杩樹細鎸?fullscreenMode 鍐嶈鐩栦竴娆★紙NONE/STATUS_ONLY=鍚岃壊锛?             IMMERSIVE=閫忔槑锛夛紝杩欓噷鍏滃簳缁欎笉璧?SystemUI 鐨勯〉闈紙濡傚紩瀵奸〉锛変笌鍐峰惎鍔ㄧ獥鍙ｃ€?-->
+        <item name="android:statusBarColor">@color/xb_bg_top</item>
+        <item name="android:navigationBarColor">@color/xb_bg_bottom</item>
+        <item name="android:windowLightStatusBar">@bool/status_bar_light</item>
+        <item name="android:windowLightNavigationBar">@bool/status_bar_light</item>
         <item name="colorPrimary">@color/xb_accent</item>
         <item name="colorSecondary">@color/xb_accent</item>
         <item name="colorAccent">@color/xb_accent</item>
@@ -22,13 +29,16 @@
         <item name="android:windowFullscreen">true</item>
     </style>
 
-    <!-- X管家 适配：启动页不再用"整屏 logo 图"，改成和主界面一致的浅色渐变底，
-         这样冷启动时看到的是一块纯背景，不会显得"全屏" -->
+    <!-- X绠″ 閫傞厤锛氬惎鍔ㄩ〉涓嶅啀鐢?鏁村睆 logo 鍥?锛屾敼鎴愬拰涓荤晫闈竴鑷寸殑娴呰壊娓愬彉搴曪紝
+         杩欐牱鍐峰惎鍔ㄦ椂鐪嬪埌鐨勬槸涓€鍧楃函鑳屾櫙锛屼笉浼氭樉寰?鍏ㄥ睆" -->
     <style name="SplashTheme" parent="AppTheme">
-        <item name="android:windowBackground">@drawable/bg_xb</item>
+        <item name="android:windowBackground">@drawable/splash_background</item>
         <item name="android:statusBarColor">@color/xb_bg_top</item>
         <item name="android:navigationBarColor">@color/xb_bg_bottom</item>
-        <item name="android:windowLightStatusBar">true</item>
+        <!-- 鏃ラ棿娴呰摑搴?娣卞浘鏍?true)锛屽闂存繁闈涜摑搴?娴呭浘鏍?false)锛岃 values-night/bools.xml -->
+        <item name="android:windowLightStatusBar">@bool/status_bar_light</item>
+        <!-- API 27+锛氬鑸爮鍥炬爣鏄庢殫璺熼殢鍚屼竴 bool锛堟棫绯荤粺蹇界暐璇ュ睘鎬э紝淇濇寔榛樿锛夈€?-->
+        <item name="android:windowLightNavigationBar">@bool/status_bar_light</item>
     </style>
 
     <style name="SplashTheme.Fullscreen" parent="SplashTheme">
@@ -109,7 +119,8 @@
     </style>
     <style name="DialogButton.Negative" parent="DialogButton.Positive" />
     <style name="DialogWindowTitle" parent="android:Widget.TextView">
-        <item name="android:textColor">@color/text_primary</item>
+        <!-- xAuto 澶滈棿妯″紡锛歞a_text 鏄?token 鈥斺€?鏃ラ棿娣卞瓧銆佸闂寸櫧瀛楋紝寮圭獥鏍囬鑷姩璺熼殢銆?-->
+        <item name="android:textColor">@color/da_text</item>
         <item name="android:textSize">22sp</item>
     </style>
 
@@ -119,6 +130,7 @@
     </style>
 
     <style name="ThemeOverlay.ExtremeDark" parent="">
+        <!-- xAuto 澶滈棿妯″紡锛氭仮澶?鏋佹殫"涓婚锛堢函榛戯級璇箟锛屼緵鐢ㄦ埛鏄惧紡閫夋嫨 EXTREME_DARK 鏃朵娇鐢ㄣ€?-->
         <item name="colorSurface">@color/extreme_dark_background</item>
         <item name="android:colorBackground">@color/extreme_dark_background</item>
         <item name="android:windowBackground">@color/extreme_dark_background</item>

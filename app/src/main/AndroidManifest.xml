@@ -322,9 +322,13 @@
             </intent-filter>
         </receiver>
 
+        <!-- 用户 2026-10-25：xAuto 默认不随车机开机自启。
+             保留 receiver 代码与 intent-filter，只是默认 enabled=false；以后要恢复开机自启，
+             把这里改回 android:enabled="true" 即可（无其它代码改动）。 -->
         <receiver
             android:name=".app.BootCompleteReceiver"
             android:directBootAware="true"
+            android:enabled="false"
             android:exported="true">
             <intent-filter>
                 <!-- Standard Android boot -->

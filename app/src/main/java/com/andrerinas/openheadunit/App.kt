@@ -33,7 +33,10 @@ class App : Application() {
         super.onCreate()
         instance = this
 
-
+        // xAuto 夜间模式（用户追加需求）：跟随车机系统深浅色 —— 白天浅蓝（values/），
+        // 夜间深色（values-night/）。恢复 MODE_NIGHT_FOLLOW_SYSTEM；AppThemeManager 里
+        // AUTOMATIC 同样跟随系统，用户显式选浅色/深色时仍以用户设置为准。
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
 
         // Enable vector drawable support on older Android versions
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)

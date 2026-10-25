@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- xAuto 夜间模式：药丸底取 xb_accent（日间深蓝 / 夜间浅蓝），文字统一用 da_background
+     （日间浅蓝 / 夜间深靛蓝），两种模式下都是"反色"，保证对比度；仍保持圆角胶囊形状。 -->
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <solid android:color="#40000000" />
+    <solid android:color="@color/xb_accent" />
     <corners android:radius="20dp" />
 </shape>

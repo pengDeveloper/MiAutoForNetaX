@@ -9,12 +9,13 @@
         android:orientation="vertical"
         android:padding="24dp">
 
-        <!-- Preview container -->
+        <!-- xAuto 强制浅色：这块是"加载画面媒体"的预览画布（最终会整屏铺在车机深色视频面上），
+             保留黑色 letterbox；页面其余部分（标题/说明/按钮）跟随浅色主题。 -->
         <FrameLayout
             android:id="@+id/preview_container"
             android:layout_width="match_parent"
             android:layout_height="180dp"
-            android:background="#FF1A1A1A"
+            android:background="@android:color/black"
             android:clipChildren="true">
 
             <!-- Placeholder text -->
@@ -51,7 +52,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:textColor="#AAAAAA"
+            android:textColor="@color/xb_text_secondary"
             android:textSize="13sp" />
 
         <!-- Supported formats info -->
@@ -60,7 +61,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:text="@string/loading_screen_supported_formats"
-            android:textColor="#AAAAAA"
+            android:textColor="@color/xb_text_secondary"
             android:textSize="13sp" />
 
         <!-- Select file button -->

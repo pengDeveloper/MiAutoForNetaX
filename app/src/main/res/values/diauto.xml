@@ -1,11 +1,18 @@
 <?xml version="1.0" ?>
 <resources>
-    <color name="da_background">#0C111B</color>
-    <color name="da_surface">#151E2C</color>
-    <color name="da_border">#2A384B</color>
-    <color name="da_accent">#A6C8FF</color>
-    <color name="da_text">#F1F5FC</color>
-    <color name="da_muted">#A8B6CA</color>
+    <!--
+      xAuto 夜间模式（用户追加需求）：da_* 是"跨页面语义 token"，本身不写死颜色，
+      全部引用 values/colors.xml 的 X管家基色（xb_*）：
+      日间取 values/ 的浅蓝盘、夜间自动取 values-night/ 的深色盘，
+      所以主界面 / 驾驶设置 / 诊断 / 引导 / 弹窗等页面无需改布局即可跟随系统深浅色。
+      （之前这里固定为深色导航蓝，导致系统怎么切页面都是深底。）
+    -->
+    <color name="da_background">@color/xb_bg_top</color>
+    <color name="da_surface">@color/xb_card</color>
+    <color name="da_border">@color/divider_color</color>
+    <color name="da_accent">@color/xb_accent</color>
+    <color name="da_text">@color/xb_text_primary</color>
+    <color name="da_muted">@color/xb_text_secondary</color>
     <string name="da_brand">xAuto</string>
     <string name="da_tagline">XAUTOCAR · HEAD UNIT</string>
     <string name="da_headline">Your phone, on your car screen.</string>

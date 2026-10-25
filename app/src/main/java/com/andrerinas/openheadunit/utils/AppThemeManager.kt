@@ -253,7 +253,11 @@ class AppThemeManager(
     }
 
     private fun applyNightMode(isNight: Boolean) {
+        // xAuto 夜间模式（用户追加需求）：动态主题（光照/亮度/日出日落/位置等）按昼夜
+        // 重新切换 NIGHT_YES / NIGHT_NO，不再固定浅色。已经是目标模式时直接返回，
+        // 避免重复 signalThemeChange 触发无意义的 Activity recreate。
         val mode = if (isNight) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
+        if (AppCompatDelegate.getDefaultNightMode() == mode) return
         AppLog.d("AppThemeManager: Setting night mode to ${if (isNight) "NIGHT" else "DAY"}")
         AppCompatDelegate.setDefaultNightMode(mode)
         signalThemeChange()
@@ -327,6 +331,8 @@ class AppThemeManager(
                 }
                 return
             }
+            // xAuto 夜间模式（用户追加需求）：AUTOMATIC 跟随车机系统深浅色；
+            // 用户显式选 CLEAR（浅色）/ DARK / EXTREME_DARK 时仍按用户设置生效。
             val mode = when (settings.appTheme) {
                 Settings.AppTheme.AUTOMATIC -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
                 Settings.AppTheme.CLEAR -> AppCompatDelegate.MODE_NIGHT_NO

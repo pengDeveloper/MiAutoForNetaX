@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  xAuto 夜间模式（用户追加需求）：状态栏/导航栏用浅蓝底（xb_bg_top/xb_bg_bottom）时，
+  图标/文字必须反过来用深色，否则「浅底白字」看不清。
+  用 bool 资源而不是在 styles.xml 里写死 true，是因为 values-night/bools.xml 要取反。
+-->
+<resources>
+    <bool name="status_bar_light">true</bool>
+</resources>

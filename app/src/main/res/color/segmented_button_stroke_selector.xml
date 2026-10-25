@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- xAuto 夜间模式：选中描边取 da_accent token（日间深蓝/夜间浅蓝），未选中取
+     segmented_button_stroke（日间 #808080 / 夜间 #CCCCCC），两种模式都清晰。 -->
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_checked="true" android:color="@color/da_accent" />
-    <item android:color="@color/da_border" />
+    <item android:color="@color/segmented_button_stroke" />
 </selector>

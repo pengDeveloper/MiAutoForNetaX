@@ -55,6 +55,10 @@ class MainActivity : BaseActivity() {
     private var isFinishReceiverRegistered = false
     private var isRecreateReceiverRegistered = false
 
+    // xAuto 夜间模式：MainActivity 在 Manifest 里声明了 configChanges="...|uiMode"，
+    // 系统切深浅色时不会重建 Activity，需要自己跟踪并刷新（见 onConfigurationChanged）。
+    private var lastNightMode: Int = Configuration.UI_MODE_NIGHT_UNDEFINED
+
     private val viewModel: MainViewModel by viewModels()
 
     private var autoConnectWatchdog: Job? = null
@@ -121,6 +125,7 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         requestedOrientation = Settings(this).screenOrientation.androidOrientation
         super.onCreate(savedInstanceState)
+        lastNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
         com.andrerinas.openheadunit.hud.BydNavigationOutputs.onAppOpened(applicationContext)
 
         logLaunchSource()
@@ -927,6 +932,22 @@ class MainActivity : BaseActivity() {
         // 这里不再跟随用户设置里的全屏模式，固定走 NONE —— 由系统按 insets
         // 把窗口布局到右侧应用区域，效果与 X管家一致（真正的"分屏"）。
         SystemUI.apply(window, root, Settings.FullscreenMode.NONE)
+    }
+
+    /**
+     * xAuto 夜间模式（用户追加需求）：MainActivity 自己处理 uiMode 配置变化（Manifest 的
+     * configChanges 含 uiMode），系统切深浅色时不会重建 Activity，已加载的视图颜色不会刷新。
+     * 这里在日夜模式真正变化时手动 recreate，让主界面与所有 fragment 按新配置重新取资源；
+     * 新实例的 SystemUI.apply() 会同时重新计算状态栏/导航栏颜色与图标明暗。
+     */
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        val nightMode = newConfig.uiMode and Configuration.UI_MODE_NIGHT_MASK
+        if (nightMode != lastNightMode) {
+            lastNightMode = nightMode
+            AppLog.i("MainActivity: night mode changed ($nightMode), recreating for night resources")
+            recreate()
+        }
     }
 
     override fun onResume() {
